@@ -8,6 +8,7 @@ public class MaaltijdenApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MaaltijdenApplication.class, args);
+		System.out.println("Applicatie is gestart");
 	}
-
+	
 }
