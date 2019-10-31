@@ -3,59 +3,99 @@
 <head>
     <script>
 
-function userPosten() {
-        var userArray = {};
+        function userPosten() {
+            var userArray = {};
 
-     
 
-        userArray.userfirstName = document.getElementById("userFirstName").value;
-        userArray.userLastName = document.getElementById("userLastName").value;
-        userArray.userAge = document.getElementById("userAge").value;
-        userArray.userPW = document.getElementById("userPW").value
-        userArray.userWeight = document.getElementById("userWeight").value;
-        userArray.userLength = document.getElementById("userHeight").value;
-       
-        var userArrayJSON = JSON.stringify(userArray);
-                                                 
-        userPost(userArrayJSON);
-        function userPost(data) {
+
+            userArray.userfirstName = document.getElementById("userFirstName").value;
+            userArray.userLastName = document.getElementById("userLastName").value;
+            userArray.userAge = document.getElementById("userAge").value;
+            userArray.userPW = document.getElementById("userPW").value
+            userArray.userWeight = document.getElementById("userWeight").value;
+            userArray.userLength = document.getElementById("userLength").value;
+
+            var userArrayJSON = JSON.stringify(userArray);
+
+            userPost(userArrayJSON);
+            function userPost(data) {
+                var xhr = new XMLHttpRequest();
+                console.log(xhr);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && xhr.status == "200") {
+                        console.log("user is verstuurd")
+                    }
+                }
+                xhr.open("POST", "http://www.localhost:8082/allUsers", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send(data);
+            }
+        }
+
+        function userOphalen() {
             var xhr = new XMLHttpRequest();
-            console.log(xhr);
             xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && xhr.status == "200") {
-                    console.log("user is verstuurd")
+                if (this.readyState == 4 && this.status == 200) {
+                    var userLijstJSON = this.responseText;
+                    var userLijst = JSON.parse(userLijstJSON)
+                    console.log("Zie hier al uw gebruikers");
+                    console.log(userLijst);
                 }
             }
-            xhr.open("POST", "http://www.localhost:8082/allUsers", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(data);
-        }
-    }
 
-    function userOphalen(){ 
-        var xhr = new XMLHttpRequest(); 
-        xhr.onreadystatechange = function(){
-        if (this.readyState == 4 && this.status == 200) {
-            var userLijstJSON = this.responseText; 
-            var userLijst = JSON.parse(userLijstJSON)
-            console.log("Zie hier al uw gebruikers"); 
-            console.log(userLijst);
+            xhr.open("GET", "http://localhost:8082/allUsers", true);
+            xhr.send();
+
+
+
+        }
+
+        function BMIBerekenen() {
+            //console.log("BMI wordt berekend")
+            var gewicht = document.getElementById("userWeight").value;
+            var lengte = document.getElementById("userLength").value;
+
+            var BMIvariabele = gewicht / ((lengte / 100) * (lengte / 100));
+            console.log(BMIvariabele);
+            BMIvariabele = Math.round(BMIvariabele*100)/100; 
+
+            var BMIPrintLocatie = document.getElementById("BMI");
+            BMIPrintLocatie.innerHTML = BMIvariabele;
+
+            var persoonNaamPrintLocatie = document.getElementById("persoonsGegegvens");
+            var persoonNaam = document.getElementById("userFirstName").value;
+            console.log(persoonNaam)
+
+            persoonNaamPrintLocatie.innerHTML = "Welkom " + persoonNaam + ", uw BMI is:";
+
+
+            var printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+
+
+            if (BMIvariabele < 18) {
+                //printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+                printBMIteHoogOfTeLaag.innerHTML = "Uw BMI is te laag"
+            } else if (BMIvariabele > 25) {
+               // printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+                printBMIteHoogOfTeLaag.innerHTML = "U bent te zwaar"
+            } else {
+               // printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+                printBMIteHoogOfTeLaag.innerHTML = "Uw gewicht is niet het probleem"
             }
+
+
+
+
+
         }
 
-        xhr.open("GET" , "http://localhost:8082/allUsers", true); 
-        xhr.send(); 
-        
-
-
-    }
-        
 
     </script>
 
     <style>
         .button {
-            background-color: #4CAF50; /* Green */
+            background-color: #4CAF50;
+            /* Green */
             border: none;
             color: white;
             padding: 15px 32px;
@@ -65,18 +105,18 @@ function userPosten() {
             font-size: 16px;
             padding: 18px 16px;
             border-radius: 12px;
-            width: 24.8%;
+            width: 23.8%;
             display: block;
             float: left;
             margin: 0.1%
-            }   
+        }
 
         .button span {
             cursor: pointer;
             display: inline-block;
             position: relative;
             transition: 0.5s;
-            }
+        }
 
         .button span::after {
             content: '\00bb';
@@ -85,21 +125,143 @@ function userPosten() {
             top: 0;
             right: -20px;
             transition: 0.5s;
-            }
+        }
 
         .button:hover span {
             padding-right: 25px;
-            }
+        }
 
         .button:hover span::after {
             opacity: 1;
             right: 0;
-            }
+        }
+
+        .button2 {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 18px 16px;
+            border-radius: 12px;
+            width: 3.8%;
+            display: block;
+            float: left;
+            margin: 0.1%
+        }
+
+        .button2 span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button2 span::after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button2:hover span {
+            padding-right: 25px;
+        }
+
+        .button2:hover span::after {
+            opacity: 1;
+            right: 0;
+        }
+
+
+        .buttonKlein {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 18px 16px;
+            border-radius: 12px;
+            width: 12.4%;
+            display: block;
+            float: left;
+            margin: 0.1%
+        }
+
+        .buttonKlein span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .buttonKlein span::after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .buttonKlein:hover span {
+            padding-right: 25px;
+        }
+
+        .buttonKlein:hover span::after {
+            opacity: 1;
+            right: 0;
+        }
     </style>
 
 </head>
 
 <body>
+
+
+
+    <body>
+        <h3 align='right'> Current user: Ipsum Lorum</h3>
+        <form action=index.html>
+            <button class="button2"><span> &#127968 </span></button>
+        </form>
+        <form action=nieuweGebruiker.html>
+            <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
+        </form>
+
+        <form action=Schema.html>
+            <button class="button"><span>Mijn Schema's</span></button>
+        </form>
+
+        <form action=Maaltijden.html>
+            <button class="button"><span>Mijn maaltijden</span></button>
+        </form>
+
+        <form action=Doel.html>
+            <button class="button"><span>Mijn Doel</span></button>
+        </form>
+
+    </body>
+
+
+
+
+    <br>
+    <!-- <button class="buttonKlein" onclick='userOphalen()' >  <span> Laat gebruiker zien</span> </button> -->
+    <br>
+
+    <h2> Maak hier een nieuwe gebruiker aan </h2>
+
     <input type="text" value="" placeholder="Voornaam" id="userFirstName" ; />
     <br>
     <input type="text" value="" placeholder="Achternaam" id="userLastName" ; />
@@ -108,19 +270,28 @@ function userPosten() {
     <br>
     <input type="text" value="" placeholder="Gewicht" id="userWeight" ; />
     <br>
-    <input type="text" value="" placeholder="Lengte" id="userHeight" ; />
+    <input type="text" value="" placeholder="Lengte" id="userLength" ; />
     <br>
     <input type="text" value="" placeholder="Wachtwoord" id="userPW" ; />
     <br>
-  
+
+    <button class="buttonKlein" onclick='userPosten();BMIBerekenen()'><span> Nieuwe Gebruiker Aanmaken</span> </button>
 
 
-   
-    
-    
-        <button class="button" onclick='userPosten()'><span> Nieuwe Gebruiker Aanmaken</span> </button>
-<br>
-        <button class="button" onclick='userOphalen()'><span> Laat gebruiker zien</span> </button>
+
+    <div id="persoonsGegegvens" align='center'>Welkom: </div>
+    <div id="BMI" align='center'> Hier wordt uw BMI geprint</div>
+
+    <div id="BMIteHoogofLaag" align='center'>.</div>
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

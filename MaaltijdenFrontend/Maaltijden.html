@@ -1,6 +1,6 @@
 <html>
 
-<h1> Vul hier je maaltijden in: </h1>
+
 
 <script>
 
@@ -38,7 +38,7 @@
                 var maaltijdenLijstJSON = this.responseText;
                 var maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
                 var table = document.getElementById("maaltijdenTable")
-                table.innerHTML = "<tr><th>Id</th><th>Naam </th><th>Calorien per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+                table.innerHTML = "<tr><th>Id</th><th>Namen </th><th>Calorien per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
                 for (var i = 0; i < maaltijdenLijst.length; i++) {
                     var row = table.insertRow(i +1);
                     var cell1 = row.insertCell(0);
@@ -89,11 +89,127 @@
 </script>
 
 
+
+<style>
+        .buttonGroot {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 18px 16px;
+            border-radius: 12px;
+            width: 23.8%;
+            display: block;
+            float: left;
+            margin: 0.1%
+            }   
+
+        .buttonGroot span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+            }
+
+        .buttonGroot span::after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+            }
+
+        .buttonGroot:hover span {
+            padding-right: 25px;
+            }
+
+        .buttonGroot:hover span::after {
+            opacity: 1;
+            right: 0;
+            }
+            .button2 {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 18px 16px;
+            border-radius: 12px;
+            width: 3.8%;
+            display: block;
+            float: left;
+            margin: 0.1%
+        }
+
+        .button2 span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button2 span::after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button2:hover span {
+            padding-right: 25px;
+        }
+
+        .button2:hover span::after {
+            opacity: 1;
+            right: 0;
+        }
+
+    </style>
+
+<script src="jquery-3.4.1.js"></script>
+
+
 <body>
 
 
 
+        <h3 align='right'> Current user: Ipsum Lorum</h3>
+        <form action=index.html>
+                <button class="button2"><span> &#127968 </span></button>
+            </form>
+        <form action=nieuweGebruiker.html>
+            <button class="buttonGroot"><span>Nieuwe Gebruiker / Inloggen </span></button>
+        </form>
+    
+        <form action=Schema.html>
+            <button class="buttonGroot"><span>Mijn Schema's</span></button>
+        </form>
+    
+        <form action=Maaltijden.html>
+            <button class="buttonGroot"><span>Mijn maaltijden</span></button>
+        </form> 
+    
+        <form action=Doel.html>
+            <button class="buttonGroot"><span>Mijn Doel</span></button>
+        </form> 
 
+
+<br><br> <br> <br> <br>  
+
+
+
+        <h1> Vul hier je maaltijden in: </h1>
 
     <input type="text" value="" placeholder="Naam maaltijd" id="name" ; />
     <input type="text" value="" placeholder="Calorien per portie" id="caloriesPerPortion" ; />
