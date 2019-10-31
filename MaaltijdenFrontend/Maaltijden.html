@@ -51,7 +51,7 @@
                     cell2.innerHTML = maaltijdenLijst[i].name;
                     cell3.innerHTML = maaltijdenLijst[i].caloriesPerPortion;
                     cell4.innerHTML = maaltijdenLijst[i].hoeveelheidInGrammen;
-                    cell5.innerHTML = "<button class=\"button\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder mijn maaltijd   </span> </button>"; 
+                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder mijn maaltijd   </span> </button>"; 
          
                 }
             }
@@ -76,170 +76,208 @@
 
     }
 
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
 
-<style>
-        .buttonGroot {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 23.8%;
-            display: block;
-            float: left;
-            margin: 0.1%
-            }   
+<head>
 
-        .buttonGroot span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-            }
-
-        .buttonGroot span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-            }
-
-        .buttonGroot:hover span {
-            padding-right: 25px;
-            }
-
-        .buttonGroot:hover span::after {
-            opacity: 1;
-            right: 0;
-            }
-            .button2 {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 3.8%;
-            display: block;
-            float: left;
-            margin: 0.1%
-        }
-
-        .button2 span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .button2 span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .button2:hover span {
-            padding-right: 25px;
-        }
-
-        .button2:hover span::after {
-            opacity: 1;
-            right: 0;
-        }
-
-    </style>
-
-<script src="jquery-3.4.1.js"></script>
-
-
-<body>
-
-
-
-        <h3 align='right'> Current user: Ipsum Lorum</h3>
-        <form action=index.html>
-                <button class="button2"><span> &#127968 </span></button>
-            </form>
-        <form action=nieuweGebruiker.html>
-            <button class="buttonGroot"><span>Nieuwe Gebruiker / Inloggen </span></button>
-        </form>
-    
-        <form action=Schema.html>
-            <button class="buttonGroot"><span>Mijn Schema's</span></button>
-        </form>
-    
-        <form action=Maaltijden.html>
-            <button class="buttonGroot"><span>Mijn maaltijden</span></button>
-        </form> 
-    
-        <form action=Doel.html>
-            <button class="buttonGroot"><span>Mijn Doel</span></button>
-        </form> 
-
-
-<br><br> <br> <br> <br>  
-
-
-
-        <h1> Vul hier je maaltijden in: </h1>
-
-    <input type="text" value="" placeholder="Naam maaltijd" id="name" ; />
-    <input type="text" value="" placeholder="Calorien per portie" id="caloriesPerPortion" ; />
-    <input type="text" value="" placeholder="Hoeveelheid in grammen" id="hoeveelheidInGrammen" ; />
-
-
-    <button type="button" onclick="maaltijdPosten()"> Voeg maaltijd toe! </button>
-    <br>
-    <br>
-
-    <h1> Bekijk hier je maaltijden</h1>
-
-
-    <button class="button" onclick='maaltijdOphalen()'><span>Wat heb ik gegeten?</span></button>
-
-
-    <table style="width:50%" id="maaltijdenTable" border='1'>
-        <tr>
-            <th>Id</th>
-            <th>Naam </th>
-            <th>Calorien per portie </th>
-            <th>hoeveelheid in grammen</th>
-            <th> </th>
-        </tr>
-    </table>
-
+    <style>
+         .button {
+             background-color: #4CAF50; /* Green */
+             border: none;
+             color: white;
+             padding: 15px 32px;
+             text-align: center;
+             text-decoration: none;
+             display: inline-block;
+             font-size: 16px;
+             padding: 18px 16px;
+             border-radius: 12px;
+             width: 23.8%;
+             display: block;
+             float: left;
+             margin: 0.1%
+             }   
  
+         .button span {
+             cursor: pointer;
+             display: inline-block;
+             position: relative;
+             transition: 0.5s;
+             }
+ 
+         .button span::after {
+             content: '\00bb';
+             position: absolute;
+             opacity: 0;
+             top: 0;
+             right: -20px;
+             transition: 0.5s;
+             }
+ 
+         .button:hover span {
+             padding-right: 25px;
+             }
+ 
+         .button:hover span::after {
+             opacity: 1;
+             right: 0;
+             }
+             .button2 {
+             background-color: #4CAF50;
+             /* Green */
+             border: none;
+             color: white;
+             padding: 15px 32px;
+             text-align: center;
+             text-decoration: none;
+             display: inline-block;
+             font-size: 16px;
+             padding: 18px 16px;
+             border-radius: 12px;
+             width: 3.8%;
+             display: block;
+             float: left;
+             margin: 0.1%
+         }
+ 
+         .button2 span {
+             cursor: pointer;
+             display: inline-block;
+             position: relative;
+             transition: 0.5s;
+         }
+ 
+         .button2 span::after {
+             content: '\00bb';
+             position: absolute;
+             opacity: 0;
+             top: 0;
+             right: -20px;
+             transition: 0.5s;
+         }
+ 
+         .button2:hover span {
+             padding-right: 25px;
+         }
+ 
+         .button2:hover span::after {
+             opacity: 1;
+             right: 0;
+         }
 
-
-</body>
-
-
-</html>
+         .button3 {
+             background-color: #4CAF50;
+             /* Green */
+             border: none;
+             color: white;
+             padding: 15px 32px;
+             text-align: center;
+             text-decoration: none;
+             display: inline-block;
+             font-size: 16px;
+             padding: 18px 16px;
+             border-radius: 12px;
+             width: 10%;
+             display: block;
+             float: left;
+             margin: 0.1%
+         }
+ 
+         .button3 span {
+             cursor: pointer;
+             display: inline-block;
+             position: relative;
+             transition: 0.5s;
+         }
+ 
+         .button3 span::after {
+             content: '\00bb';
+             position: absolute;
+             opacity: 0;
+             top: 0;
+             right: -20px;
+             transition: 0.5s;
+         }
+ 
+         .button3:hover span {
+             padding-right: 25px;
+         }
+ 
+         .button3:hover span::after {
+             opacity: 1;
+             right: 0;
+         }
+         .tekstFont{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+     </style>
+ 
+ <script src="jquery-3.4.1.js"></script>
+ 
+ 
+ <link hreft="go.css" type=stylesheet/css">
+ 
+ </head>
+ 
+ <body onload= "maaltijdOphalen()">
+       
+         <form action=index.html>
+                 <button class="button2"><span> &#127968 </span></button>
+             </form>
+         <form action=nieuweGebruiker.html>
+             <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
+         </form>
+     
+         <form action=Schema.html>
+             <button class="button"><span>Mijn Schema's</span></button>
+         </form>
+     
+         <form action=Maaltijden.html>
+             <button class="button"><span>Mijn maaltijden</span></button>
+         </form> 
+     
+         <form action=Doel.html>
+             <button class="button"><span>Mijn Doel</span></button>
+         </form> 
+         
+         <br><br> <br> <br> <br>  
+ 
+ 
+ 
+         <h1 class="tekstFont"> Vul hier je maaltijden in: </h1>
+         <button class="button3" onclick="maaltijdPosten()"> Voeg maaltijd toe! </button>
+         <br><br><br><br><br><br>
+     <input class="tekstFont" type="text" value="" placeholder="Naam maaltijd" id="name" ; />
+     <input class="tekstFont" type="text" value="" placeholder="Calorien per portie" id="caloriesPerPortion" ; />
+     <input class="tekstFont" type="text" value="" placeholder="Hoeveelheid in grammen" id="hoeveelheidInGrammen" ; />
+ 
+ 
+     
+     
+     <br>
+     <br>
+ 
+     <h1 class="tekstFont"> Bekijk hier je maaltijden</h1>
+ 
+ 
+ 
+ <br><br>
+     <table style="width:50%" id="maaltijdenTable" border='1'>
+         <tr>
+             <th class="tekstFont">Id</th>
+             <th class="tekstFont">Naam </th>
+             <th class="tekstFont">Calorien per portie </th>
+             <th class="tekstFont">hoeveelheid in grammen</th>
+             <th> </th>
+         </tr>
+     </table>
+ 
+  
+ 
+ 
+ </body>
+ 
+ 
+ </html>

@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
 
-<head>
+
     <script>
 
         function userPosten() {
@@ -54,32 +55,25 @@
             //console.log("BMI wordt berekend")
             var gewicht = document.getElementById("userWeight").value;
             var lengte = document.getElementById("userLength").value;
-
             var BMIvariabele = gewicht / ((lengte / 100) * (lengte / 100));
             console.log(BMIvariabele);
-            BMIvariabele = Math.round(BMIvariabele*100)/100; 
-
-            var BMIPrintLocatie = document.getElementById("BMI");
-            BMIPrintLocatie.innerHTML = BMIvariabele;
-
+            BMIvariabele = Math.round(BMIvariabele * 100) / 100;
             var persoonNaamPrintLocatie = document.getElementById("persoonsGegegvens");
             var persoonNaam = document.getElementById("userFirstName").value;
             console.log(persoonNaam)
-
             persoonNaamPrintLocatie.innerHTML = "Welkom " + persoonNaam + ", uw BMI is:";
-
-
             var printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
-
-
             if (BMIvariabele < 18) {
-                //printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+                var BMIPrintLocatie = document.getElementById("BMIRood");
+                BMIPrintLocatie.innerHTML = BMIvariabele;
                 printBMIteHoogOfTeLaag.innerHTML = "Uw BMI is te laag"
             } else if (BMIvariabele > 25) {
-               // printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+                var BMIPrintLocatie = document.getElementById("BMIRood");
+                BMIPrintLocatie.innerHTML = BMIvariabele;
                 printBMIteHoogOfTeLaag.innerHTML = "U bent te zwaar"
-            } else {
-               // printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+            } else {     
+                var BMIPrintLocatie = document.getElementById("BMI");
+                BMIPrintLocatie.innerHTML = BMIvariabele;
                 printBMIteHoogOfTeLaag.innerHTML = "Uw gewicht is niet het probleem"
             }
 
@@ -92,139 +86,12 @@
 
     </script>
 
-    <style>
-        .button {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 23.8%;
-            display: block;
-            float: left;
-            margin: 0.1%
-        }
+<head>
 
-        .button span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .button span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .button:hover span {
-            padding-right: 25px;
-        }
-
-        .button:hover span::after {
-            opacity: 1;
-            right: 0;
-        }
-
-        .button2 {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 3.8%;
-            display: block;
-            float: left;
-            margin: 0.1%
-        }
-
-        .button2 span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .button2 span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .button2:hover span {
-            padding-right: 25px;
-        }
-
-        .button2:hover span::after {
-            opacity: 1;
-            right: 0;
-        }
-
-
-        .buttonKlein {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 12.4%;
-            display: block;
-            float: left;
-            margin: 0.1%
-        }
-
-        .buttonKlein span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .buttonKlein span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .buttonKlein:hover span {
-            padding-right: 25px;
-        }
-
-        .buttonKlein:hover span::after {
-            opacity: 1;
-            right: 0;
-        }
-    </style>
-
-</head>
+        <script src="jquery-3.4.1.js"></script>
+        <link rel="stylesheet" href="styleSheet.css">
+ 
+ </head>
 
 <body>
 
@@ -260,7 +127,7 @@
     <!-- <button class="buttonKlein" onclick='userOphalen()' >  <span> Laat gebruiker zien</span> </button> -->
     <br>
 
-    <h2> Maak hier een nieuwe gebruiker aan </h2>
+    <h2 class="tekstFont"> Maak hier een nieuwe gebruiker aan </h2>
 
     <input type="text" value="" placeholder="Voornaam" id="userFirstName" ; />
     <br>
@@ -279,10 +146,15 @@
 
 
 
-    <div id="persoonsGegegvens" align='center'>Welkom: </div>
-    <div id="BMI" align='center'> Hier wordt uw BMI geprint</div>
+    <div class="tekstFont" id="persoonsGegegvens" align='center'>
+        <!--Welkom-->
+</div>
+    <div class="tekstFont" id="BMI" align='center'><!--Hier wordt uw BMI geprint--></div>
+    <div class="tekstFontGroen" id="BMIGroen" align='center'><!--Hier wordt uw BMI geprint--></div>
+    <div class="tekstFontRood" id="BMIRood" align='center'><!--Hier wordt uw BMI geprint--></div>
 
-    <div id="BMIteHoogofLaag" align='center'>.</div>
+    <div id="BMIteHoogofLaag" class="tekstFont" align='center'></div>
+
 
 
 

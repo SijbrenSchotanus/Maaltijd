@@ -1,122 +1,209 @@
+<DOCTYPE html>
 <html>
+
+
+
+
+<script>
+
+
+    function sessiePosten() {
+        var trainingArray = {};
+        trainingArray.beschrijvingOefening = document.getElementById("beschrijvingOefening").value;
+        trainingArray.calVerbrand = document.getElementById("calVerbrand").value;
+        trainingArray.dag = document.getElementById("dag").value;
+        var trainingArrayJSON = JSON.stringify(trainingArray);
+        sessiePost(trainingArrayJSON);
+        console.log(trainingArrayJSON);
+        function sessiePost(data) {
+            var xhr = new XMLHttpRequest();
+            console.log(xhr);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && xhr.status == "200") {
+                    console.log("het is verstuurd")
+                }
+            }
+            xhr.open("POST", "http://localhost:8082/Sessies", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        }
+    }
+
+
+
+
+    function sessieOphalen() {
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                
+                var trainingLijstJSON = this.responseText;
+                var trainingLijst = JSON.parse(trainingLijstJSON);
+                var table = document.getElementById("trainingTabel")
+                table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
+                for (var i = 0; i < trainingLijst.length; i++) {
+                    var row = table.insertRow(i +1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+        
+                    
+                    
+                    cell1.innerHTML = trainingLijst[i].dag;
+                    cell2.innerHTML = trainingLijst[i].beschrijvingOefening;
+                    cell3.innerHTML = trainingLijst[i].calVerbrand;
+                    cell4.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"sessieVerwijderen("+trainingLijst[i].id+")\" > <span> Verwijder deze sessie  </span> </button>";         
+                }
+            }
+        }
+        xhr.open("GET", "http://localhost:8082/Sessies", true);
+        xhr.send();
+    }
+
+
+    var dagenlijstArray = {}; 
+    function dagenOphalen() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var dagenLijstJSON = this.responseText;
+                var dagenLijst = JSON.parse(dagenLijstJSON); 
+                console.log(dagenLijst); 
+                for(var i = 0; i <dagenLijst.length;i++){
+                    dagenlijstArray[i] = dagenLijst[i].dag; 
+                }
+                console.log(dagenlijstArray)
+            }
+        }
+        xhr.open("GET", "http://localhost:8082/Sessies", true);
+        xhr.send();
+        
+    }
+    
+
+
+
+    function sessieVerwijderen(id) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+        }
+        xhr.open("DELETE", "http://localhost:8082/sessie/" + id + "/delete", true);
+        xhr.send();
+        location.reload();
+    }
+
+
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+
+    
+  document.getElementById("myDropdown").classList.toggle("show");
+
+  
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+</script>
+
+
 
 <head>
 
-   <style>
-        .button {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 23.8%;
-            display: block;
-            float: left;
-            margin: 0.1%
-            }   
-
-        .button span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-            }
-
-        .button span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-            }
-
-        .button:hover span {
-            padding-right: 25px;
-            }
-
-        .button:hover span::after {
-            opacity: 1;
-            right: 0;
-            }
-            .button2 {
-            background-color: #4CAF50;
-            /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            padding: 18px 16px;
-            border-radius: 12px;
-            width: 3.8%;
-            display: block;
-            float: left;
-            margin: 0.1%
-        }
-
-        .button2 span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .button2 span::after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .button2:hover span {
-            padding-right: 25px;
-        }
-
-        .button2:hover span::after {
-            opacity: 1;
-            right: 0;
-        }
-
-    </style>
-
-<script src="jquery-3.4.1.js"></script>
+        <script src="jquery-3.4.1.js"></script>
+        <link rel="stylesheet" href="styleSheet.css">
+ 
+ </head>
+ 
+ <body onload="sessieOphalen()" >
 
 
-<link hreft="go.css" type=stylesheet/css">
 
-</head>
+       
+         <form action=index.html>
+                 <button class="button2"><span> &#127968 </span></button>
+             </form>
+         <form action=nieuweGebruiker.html>
+             <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
+         </form>
+     
+         <form action=Schema.html>
+             <button class="button"><span>Mijn Schema's</span></button>
+         </form>
+     
+         <form action=Maaltijden.html>
+             <button class="button"><span>Mijn maaltijden</span></button>
+         </form> 
+     
+         <form action=Doel.html>
+             <button class="button"><span>Mijn Doel</span></button>
+         </form> 
+         
+         <br><br> <br> <br> <br>  
+ 
+ 
+ 
+         <h1 class="tekstFont"> Vul hier je training in: </h1>
+         <button class="button3" onclick="sessiePosten()"> Activiteit opslaan </button>
+         <br><br><br><br><br><br>
+     <input class="tekstFont" type="text" value="" placeholder="Dag van oefening" id="dag" ; />
+     <input class="tekstFont" type="text" value="" placeholder="Oefening" id="beschrijvingOefening" ; />
+     <input class="tekstFont" type="text" value="" placeholder="Calorien verbrand" id="calVerbrand" ; />
+ 
+ 
+     <button type="button" onclick = dagenOphalen() >Click Me!</button>
+     
+     <br>
+     <br>
+ 
+     <h1 class="tekstFont"> Bekijk hier je sessies</h1>
 
-<body>
-        <h3 align='right'> Current user: Ipsum Lorum</h3>
-        <form action=index.html>
-                <button class="button2"><span> &#127968 </span></button>
-            </form>
-        <form action=nieuweGebruiker.html>
-            <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
-        </form>
-    
-        <form action=Schema.html>
-            <button class="button"><span>Mijn Schema's</span></button>
-        </form>
-    
-        <form action=Maaltijden.html>
-            <button class="button"><span>Mijn maaltijden</span></button>
-        </form> 
-    
-        <form action=Doel.html>
-            <button class="button"><span>Mijn Doel</span></button>
-        </form> 
-        
-    </body>
 
-</html>
+
+     <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <button class ="buttonList"  type="button" onclick="dagenOphalen()" > Vandaag</button>  
+          <button class ="buttonList"  type="button" onclick="dagenOphalen()"> Gisteren</button>  
+          <button class ="buttonList" type="button" onclick="dagenOphalen()"> Alles</button>  
+          
+        </div>
+      </div>
+      
+ 
+ 
+ 
+ <br><br>
+     <table style="width:50%" id="trainingTabel" border='1'>
+         <tr>
+             <th class="tekstFont">Id</th>
+             <th class="tekstFont">Dag </th>
+             <th class="tekstFont">Oefening </th>
+             <th class="tekstFont">Calorien verbrand</th>
+             <th> </th>
+         </tr>
+     </table>
+ 
+  
+ 
+ 
+ </body>
+ 
+ 
+ </html>
