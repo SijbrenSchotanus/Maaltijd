@@ -20,7 +20,8 @@ public class MaaltijdEndpoint {
     @PostMapping("/alleMaaltijden")
     public Maaltijd nieuweMaaltijd(@RequestBody Maaltijd maal){
         Maaltijd toegevoegdeMaaltijd = maaltijdService.save(maal);
-        System.out.println("Maaltijd toegevoegd");
+        System.out.println();
+        System.out.println(maal.getName() + " toegevoegd aan maaltijden");
         return toegevoegdeMaaltijd;
     }
 

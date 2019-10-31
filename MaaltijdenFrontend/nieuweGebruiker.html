@@ -1,0 +1,126 @@
+<html>
+
+<head>
+    <script>
+
+function userPosten() {
+        var userArray = {};
+
+     
+
+        userArray.userfirstName = document.getElementById("userFirstName").value;
+        userArray.userLastName = document.getElementById("userLastName").value;
+        userArray.userAge = document.getElementById("userAge").value;
+        userArray.userPW = document.getElementById("userPW").value
+        userArray.userWeight = document.getElementById("userWeight").value;
+        userArray.userLength = document.getElementById("userHeight").value;
+       
+        var userArrayJSON = JSON.stringify(userArray);
+                                                 
+        userPost(userArrayJSON);
+        function userPost(data) {
+            var xhr = new XMLHttpRequest();
+            console.log(xhr);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && xhr.status == "200") {
+                    console.log("user is verstuurd")
+                }
+            }
+            xhr.open("POST", "http://www.localhost:8082/allUsers", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        }
+    }
+
+    function userOphalen(){ 
+        var xhr = new XMLHttpRequest(); 
+        xhr.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+            var userLijstJSON = this.responseText; 
+            var userLijst = JSON.parse(userLijstJSON)
+            console.log("Zie hier al uw gebruikers"); 
+            console.log(userLijst);
+            }
+        }
+
+        xhr.open("GET" , "http://localhost:8082/allUsers", true); 
+        xhr.send(); 
+        
+
+
+    }
+        
+
+    </script>
+
+    <style>
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            padding: 18px 16px;
+            border-radius: 12px;
+            width: 24.8%;
+            display: block;
+            float: left;
+            margin: 0.1%
+            }   
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+            }
+
+        .button span::after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+            }
+
+        .button:hover span {
+            padding-right: 25px;
+            }
+
+        .button:hover span::after {
+            opacity: 1;
+            right: 0;
+            }
+    </style>
+
+</head>
+
+<body>
+    <input type="text" value="" placeholder="Voornaam" id="userFirstName" ; />
+    <br>
+    <input type="text" value="" placeholder="Achternaam" id="userLastName" ; />
+    <br>
+    <input type="text" value="" placeholder="Leeftijd" id="userAge" ; />
+    <br>
+    <input type="text" value="" placeholder="Gewicht" id="userWeight" ; />
+    <br>
+    <input type="text" value="" placeholder="Lengte" id="userHeight" ; />
+    <br>
+    <input type="text" value="" placeholder="Wachtwoord" id="userPW" ; />
+    <br>
+  
+
+
+   
+    
+    
+        <button class="button" onclick='userPosten()'><span> Nieuwe Gebruiker Aanmaken</span> </button>
+<br>
+        <button class="button" onclick='userOphalen()'><span> Laat gebruiker zien</span> </button>
+</body>
+
+</html>

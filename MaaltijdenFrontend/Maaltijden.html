@@ -1,0 +1,129 @@
+<html>
+
+<h1> Vul hier je maaltijden in: </h1>
+
+<script>
+
+
+    function maaltijdPosten() {
+        var maaltijdArray = {};
+        maaltijdArray.name = document.getElementById("name").value;
+        maaltijdArray.caloriesPerPortion = document.getElementById("caloriesPerPortion").value;
+        maaltijdArray.hoeveelheidInGrammen = document.getElementById("hoeveelheidInGrammen").value;
+        var maaltijdArrayJSON = JSON.stringify(maaltijdArray);
+        maaltijdPost(maaltijdArrayJSON);
+        function maaltijdPost(data) {
+            var xhr = new XMLHttpRequest();
+            console.log(xhr);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && xhr.status == "200") {
+                    console.log("het is verstuurd")
+                }
+            }
+            xhr.open("POST", "http://localhost:8082/alleMaaltijden", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        }
+    }
+
+
+
+
+    function maaltijdOphalen() {
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // document.getElementById("completeMaaltijd").innerHTML = this.responseText;
+                var maaltijdenLijstJSON = this.responseText;
+                var maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
+                var table = document.getElementById("maaltijdenTable")
+                table.innerHTML = "<tr><th>Id</th><th>Naam </th><th>Calorien per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+                for (var i = 0; i < maaltijdenLijst.length; i++) {
+                    var row = table.insertRow(i +1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    
+                    cell1.innerHTML = maaltijdenLijst[i].id;
+                    cell2.innerHTML = maaltijdenLijst[i].name;
+                    cell3.innerHTML = maaltijdenLijst[i].caloriesPerPortion;
+                    cell4.innerHTML = maaltijdenLijst[i].hoeveelheidInGrammen;
+                    cell5.innerHTML = "<button class=\"button\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder mijn maaltijd   </span> </button>"; 
+         
+                }
+            }
+        }
+        xhr.open("GET", "http://localhost:8082/alleMaaltijden", true);
+        xhr.send();
+    }
+
+
+
+    function maaltijdVerwijderen(id) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+
+        }
+        xhr.open("DELETE", "http://localhost:8082/maaltijd/" + id + "/delete", true);
+        xhr.send();
+        location.reload();
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<body>
+
+
+
+
+
+    <input type="text" value="" placeholder="Naam maaltijd" id="name" ; />
+    <input type="text" value="" placeholder="Calorien per portie" id="caloriesPerPortion" ; />
+    <input type="text" value="" placeholder="Hoeveelheid in grammen" id="hoeveelheidInGrammen" ; />
+
+
+    <button type="button" onclick="maaltijdPosten()"> Voeg maaltijd toe! </button>
+    <br>
+    <br>
+
+    <h1> Bekijk hier je maaltijden</h1>
+
+
+    <button class="button" onclick='maaltijdOphalen()'><span>Wat heb ik gegeten?</span></button>
+
+
+    <table style="width:50%" id="maaltijdenTable" border='1'>
+        <tr>
+            <th>Id</th>
+            <th>Naam </th>
+            <th>Calorien per portie </th>
+            <th>hoeveelheid in grammen</th>
+            <th> </th>
+        </tr>
+    </table>
+
+ 
+
+
+</body>
+
+
+</html>
