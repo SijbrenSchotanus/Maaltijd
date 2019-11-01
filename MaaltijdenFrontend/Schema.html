@@ -1,209 +1,317 @@
 <DOCTYPE html>
-<html>
+    <html>
 
 
 
 
-<script>
+    <script>
 
 
-    function sessiePosten() {
-        var trainingArray = {};
-        trainingArray.beschrijvingOefening = document.getElementById("beschrijvingOefening").value;
-        trainingArray.calVerbrand = document.getElementById("calVerbrand").value;
-        trainingArray.dag = document.getElementById("dag").value;
-        var trainingArrayJSON = JSON.stringify(trainingArray);
-        sessiePost(trainingArrayJSON);
-        console.log(trainingArrayJSON);
-        function sessiePost(data) {
+        function sessiePosten() {
+            var trainingArray = {};
+            trainingArray.beschrijvingOefening = document.getElementById("beschrijvingOefening").value;
+            trainingArray.calVerbrand = document.getElementById("calVerbrand").value;
+            trainingArray.dag = document.getElementById("dag").value;
+            var trainingArrayJSON = JSON.stringify(trainingArray);
+            sessiePost(trainingArrayJSON);
+            console.log(trainingArrayJSON);
+            function sessiePost(data) {
+                var xhr = new XMLHttpRequest();
+                console.log(xhr);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && xhr.status == "200") {
+                        console.log("het is verstuurd")
+                    }
+                }
+                xhr.open("POST", "http://localhost:8082/Sessies", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send(data);
+                alert("Sessie opgeslagen");
+            }
+        }
+
+
+
+
+        function sessieOphalen() {
+
             var xhr = new XMLHttpRequest();
-            console.log(xhr);
             xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && xhr.status == "200") {
-                    console.log("het is verstuurd")
-                }
-            }
-            xhr.open("POST", "http://localhost:8082/Sessies", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(data);
-        }
-    }
+                if (this.readyState == 4 && this.status == 200) {
 
-
-
-
-    function sessieOphalen() {
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                
-                var trainingLijstJSON = this.responseText;
-                var trainingLijst = JSON.parse(trainingLijstJSON);
-                var table = document.getElementById("trainingTabel")
-                table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
-                for (var i = 0; i < trainingLijst.length; i++) {
-                    var row = table.insertRow(i +1);
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-        
+                    var trainingLijstJSON = this.responseText;
+                    var trainingLijst = JSON.parse(trainingLijstJSON);
+                    var table = document.getElementById("trainingTabel")
+                    table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
                     
                     
-                    cell1.innerHTML = trainingLijst[i].dag;
-                    cell2.innerHTML = trainingLijst[i].beschrijvingOefening;
-                    cell3.innerHTML = trainingLijst[i].calVerbrand;
-                    cell4.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"sessieVerwijderen("+trainingLijst[i].id+")\" > <span> Verwijder deze sessie  </span> </button>";         
-                }
-            }
-        }
-        xhr.open("GET", "http://localhost:8082/Sessies", true);
-        xhr.send();
-    }
+                    for (var i = 0; i < trainingLijst.length; i++) {
+                        var row = table.insertRow(i + 1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
 
 
-    var dagenlijstArray = {}; 
-    function dagenOphalen() {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var dagenLijstJSON = this.responseText;
-                var dagenLijst = JSON.parse(dagenLijstJSON); 
-                console.log(dagenLijst); 
-                for(var i = 0; i <dagenLijst.length;i++){
-                    dagenlijstArray[i] = dagenLijst[i].dag; 
+
+                        cell1.innerHTML = trainingLijst[i].dag;
+                        cell2.innerHTML = trainingLijst[i].beschrijvingOefening;
+                        cell3.innerHTML = trainingLijst[i].calVerbrand;
+                        cell4.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"sessieVerwijderen(" + trainingLijst[i].id + ")\" > <span> Verwijder deze sessie  </span> </button>";
+                    }
                 }
-                console.log(dagenlijstArray)
             }
+            xhr.open("GET", "http://localhost:8082/Sessies", true);
+            xhr.send();
         }
-        xhr.open("GET", "http://localhost:8082/Sessies", true);
-        xhr.send();
+
+
+        function sessieOphalenVanGisteren() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var trainingLijstJSON = this.responseText;
+                    var trainingLijst = JSON.parse(trainingLijstJSON);
+                    var table = document.getElementById("trainingTabel")
+                    table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
+                    var dateGisteren = new Date();
+                    dateGisteren.setDate(dateGisteren.getDate() - 1);
+                    dateGisteren = dateGisteren.getDate();
+                    var trainingLijstGisteren = {};
+                    var countDays = 0;
+                    for (var i = 0; i < trainingLijst.length; i++) {
+                        if (trainingLijst[i].dag == dateGisteren) {
+                            trainingLijstGisteren[countDays] = trainingLijst[i];
+                            countDays++;
+                        }
+                    }
+                    for (var i = 0; i < countDays; i++) {
+                        console.log(trainingLijstGisteren[i]);
+                        var row = table.insertRow(i + 1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        cell1.innerHTML = trainingLijstGisteren[i].dag;
+                        cell2.innerHTML = trainingLijstGisteren[i].beschrijvingOefening;
+                        cell3.innerHTML = trainingLijstGisteren[i].calVerbrand;
+                        cell4.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"sessieVerwijderen(" + trainingLijstGisteren[i].id + ")\" > <span> Verwijder deze sessie  </span> </button>";
+
+                    }
+                }
+            }
+            xhr.open("GET", "http://localhost:8082/Sessies", true);
+            xhr.send();
+        }
+
+
         
-    }
-    
+        
+        function sessieOphalenVanVandaag() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var trainingLijstJSON = this.responseText;
+                    var trainingLijst = JSON.parse(trainingLijstJSON);
+                    var table = document.getElementById("trainingTabel")
+                    table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
+                    var dateVandaag = new Date();
+                    dateVandaag.setDate(dateVandaag.getDate() );
+                    dateVandaag = dateVandaag.getDate();
+                    var trainingLijstVandaag = {};
+                    var countDays = 0;
 
+                    console.log(dateVandaag);
 
+                    for (var i = 0; i < trainingLijst.length; i++) {
+                        if (trainingLijst[i].dag == dateVandaag) {
+                            trainingLijstVandaag[countDays] = trainingLijst[i];
+                            countDays++;
+                        }
+                    }
+                    for (var i = 0; i < countDays; i++) {
+                        console.log(trainingLijstVandaag[i]);
+                        var row = table.insertRow(i + 1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        cell1.innerHTML = trainingLijstVandaag[i].dag;
+                        cell2.innerHTML = trainingLijstVandaag[i].beschrijvingOefening;
+                        cell3.innerHTML = trainingLijstVandaag[i].calVerbrand;
+                        cell4.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"sessieVerwijderen(" + trainingLijstVandaag[i].id + ")\" > <span> Verwijder deze sessie  </span> </button>";
 
-    function sessieVerwijderen(id) {
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function () {
+                    }
+                }
+            }
+            xhr.open("GET", "http://localhost:8082/Sessies", true);
+            xhr.send();
         }
-        xhr.open("DELETE", "http://localhost:8082/sessie/" + id + "/delete", true);
-        xhr.send();
-        location.reload();
-    }
+        
+        var dagenlijstArray = {};
+
+        function dagenOphalen() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var dagenLijstJSON = this.responseText;
+                    var dagenLijst = JSON.parse(dagenLijstJSON);
+                    console.log(dagenLijst);
+                    for (var i = 0; i < dagenLijst.length; i++) {
+                        dagenlijstArray[i] = dagenLijst[i].dag;
+                    }
+                    console.log(dagenlijstArray)
+                }
+            }
+            xhr.open("GET", "http://localhost:8082/Sessies", true);
+            xhr.send();
+
+        }
 
 
 
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
 
-    
-  document.getElementById("myDropdown").classList.toggle("show");
-
-  
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-</script>
+        function sessieVerwijderen(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+            }
+            xhr.open("DELETE", "http://localhost:8082/sessie/" + id + "/delete", true);
+            xhr.send();
+            location.reload();
+        }
 
 
 
-<head>
+        //Huidige dag ophalen 
+
+        function welkeDag() {
+            var date = new Date().getDate();
+            console.log(date);
+            return date;
+        }
+
+        function welkeDagGister() {
+            var dateGisteren = new Date();
+            dateGisteren.setDate(dateGisteren.getDate() - 1);
+            dateGisteren = dateGisteren.getDate();
+            console.log(dateGisteren);
+        }
+
+        function welkeDagEergisteren() {
+            var dateGisteren = new Date();
+            dateGisteren.setDate(dateGisteren.getDate() - 2);
+            dateGisteren = dateGisteren.getDate();
+            console.log(dateGisteren);
+        }
+
+
+
+
+
+
+        function myFunction() {
+
+
+            document.getElementById("myDropdown").classList.toggle("show");
+
+
+        }
+
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+    </script>
+
+
+
+    <head>
 
         <script src="jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="styleSheet.css">
- 
- </head>
- 
- <body onload="sessieOphalen()" >
+
+    </head>
+
+    <body>
+
+        <!-- onload="sessieOphalen()" -->
+
+
+        <form action=index.html>
+            <button class="button2"><span> &#127968 </span></button>
+        </form>
+        <form action=nieuweGebruiker.html>
+            <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
+        </form>
+
+        <form action=Schema.html>
+            <button class="button"><span>Mijn Schema's</span></button>
+        </form>
+
+        <form action=Maaltijden.html>
+            <button class="button"><span>Mijn maaltijden</span></button>
+        </form>
+
+        <form action=Doel.html>
+            <button class="button"><span>Mijn Doel</span></button>
+        </form>
+
+        <br><br> <br> <br> <br>
 
 
 
+        <h1 class="tekstFont"> Vul hier je training in: </h1>
        
-         <form action=index.html>
-                 <button class="button2"><span> &#127968 </span></button>
-             </form>
-         <form action=nieuweGebruiker.html>
-             <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
-         </form>
-     
-         <form action=Schema.html>
-             <button class="button"><span>Mijn Schema's</span></button>
-         </form>
-     
-         <form action=Maaltijden.html>
-             <button class="button"><span>Mijn maaltijden</span></button>
-         </form> 
-     
-         <form action=Doel.html>
-             <button class="button"><span>Mijn Doel</span></button>
-         </form> 
-         
-         <br><br> <br> <br> <br>  
- 
- 
- 
-         <h1 class="tekstFont"> Vul hier je training in: </h1>
-         <button class="button3" onclick="sessiePosten()"> Activiteit opslaan </button>
-         <br><br><br><br><br><br>
-     <input class="tekstFont" type="text" value="" placeholder="Dag van oefening" id="dag" ; />
-     <input class="tekstFont" type="text" value="" placeholder="Oefening" id="beschrijvingOefening" ; />
-     <input class="tekstFont" type="text" value="" placeholder="Calorien verbrand" id="calVerbrand" ; />
- 
- 
-     <button type="button" onclick = dagenOphalen() >Click Me!</button>
-     
-     <br>
-     <br>
- 
-     <h1 class="tekstFont"> Bekijk hier je sessies</h1>
+        
+        <input class="tekstFont" type="text" value="" placeholder="Dag van oefening" id="dag" ; />
+        <input class="tekstFont" type="text" value="" placeholder="Oefening" id="beschrijvingOefening" ; />
+        <input class="tekstFont" type="text" value="" placeholder="Calorien verbrand" id="calVerbrand" ; />
+        <br><br>
+        <button class="button3" onclick="sessiePosten()"> Activiteit opslaan </button>
+
+
+        <br>
+        <br><br><br><br><br>
+
+        <h1 class="tekstFont"> Bekijk hier je sessies</h1>
 
 
 
-     <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-        <div id="myDropdown" class="dropdown-content">
-          <button class ="buttonList"  type="button" onclick="dagenOphalen()" > Vandaag</button>  
-          <button class ="buttonList"  type="button" onclick="dagenOphalen()"> Gisteren</button>  
-          <button class ="buttonList" type="button" onclick="dagenOphalen()"> Alles</button>  
-          
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Selecteer</button>
+            <div id="myDropdown" class="dropdown-content">
+                <button class="buttonList" type="button" onclick="sessieOphalenVanVandaag()"> Vandaag</button>
+                <button class="buttonList" type="button" onclick="sessieOphalenVanGisteren()"> Gisteren</button>
+                <button class="buttonList" type="button" onclick="sessieOphalen()"> Alle trainingen</button>
+
+            </div>
         </div>
-      </div>
-      
- 
- 
- 
- <br><br>
-     <table style="width:50%" id="trainingTabel" border='1'>
-         <tr>
-             <th class="tekstFont">Id</th>
-             <th class="tekstFont">Dag </th>
-             <th class="tekstFont">Oefening </th>
-             <th class="tekstFont">Calorien verbrand</th>
-             <th> </th>
-         </tr>
-     </table>
- 
-  
- 
- 
- </body>
- 
- 
- </html>
+
+
+
+
+        <br><br>
+        <table style="width:50%" id="trainingTabel" border='1'>
+            <tr>
+
+
+            </tr>
+        </table>
+
+
+
+
+    </body>
+
+
+    </html>
