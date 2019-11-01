@@ -13,8 +13,19 @@ public class Maaltijd {
     private String name;
     private int caloriesPerPortion;
     private int hoeveelheidInGrammen;
+    private int dag; 
+    
+    
 
-    public long getId() {
+    public int getDag() {
+		return dag;
+	}
+
+	public void setDag(int dag) {
+		this.dag = dag;
+	}
+
+	public long getId() {
         return id;
     }
 
