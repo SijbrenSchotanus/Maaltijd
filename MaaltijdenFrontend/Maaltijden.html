@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 
@@ -51,7 +52,7 @@
                     cell2.innerHTML = maaltijdenLijst[i].name;
                     cell3.innerHTML = maaltijdenLijst[i].caloriesPerPortion;
                     cell4.innerHTML = maaltijdenLijst[i].hoeveelheidInGrammen;
-                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder mijn maaltijd   </span> </button>"; 
+                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder deze maaltijd   </span> </button>"; 
          
                 }
             }
@@ -81,144 +82,9 @@
 
 
 <head>
+    <script src="jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="styleSheet.css">
 
-    <style>
-         .button {
-             background-color: #4CAF50; /* Green */
-             border: none;
-             color: white;
-             padding: 15px 32px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             padding: 18px 16px;
-             border-radius: 12px;
-             width: 23.8%;
-             display: block;
-             float: left;
-             margin: 0.1%
-             }   
- 
-         .button span {
-             cursor: pointer;
-             display: inline-block;
-             position: relative;
-             transition: 0.5s;
-             }
- 
-         .button span::after {
-             content: '\00bb';
-             position: absolute;
-             opacity: 0;
-             top: 0;
-             right: -20px;
-             transition: 0.5s;
-             }
- 
-         .button:hover span {
-             padding-right: 25px;
-             }
- 
-         .button:hover span::after {
-             opacity: 1;
-             right: 0;
-             }
-             .button2 {
-             background-color: #4CAF50;
-             /* Green */
-             border: none;
-             color: white;
-             padding: 15px 32px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             padding: 18px 16px;
-             border-radius: 12px;
-             width: 3.8%;
-             display: block;
-             float: left;
-             margin: 0.1%
-         }
- 
-         .button2 span {
-             cursor: pointer;
-             display: inline-block;
-             position: relative;
-             transition: 0.5s;
-         }
- 
-         .button2 span::after {
-             content: '\00bb';
-             position: absolute;
-             opacity: 0;
-             top: 0;
-             right: -20px;
-             transition: 0.5s;
-         }
- 
-         .button2:hover span {
-             padding-right: 25px;
-         }
- 
-         .button2:hover span::after {
-             opacity: 1;
-             right: 0;
-         }
-
-         .button3 {
-             background-color: #4CAF50;
-             /* Green */
-             border: none;
-             color: white;
-             padding: 15px 32px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             padding: 18px 16px;
-             border-radius: 12px;
-             width: 10%;
-             display: block;
-             float: left;
-             margin: 0.1%
-         }
- 
-         .button3 span {
-             cursor: pointer;
-             display: inline-block;
-             position: relative;
-             transition: 0.5s;
-         }
- 
-         .button3 span::after {
-             content: '\00bb';
-             position: absolute;
-             opacity: 0;
-             top: 0;
-             right: -20px;
-             transition: 0.5s;
-         }
- 
-         .button3:hover span {
-             padding-right: 25px;
-         }
- 
-         .button3:hover span::after {
-             opacity: 1;
-             right: 0;
-         }
-         .tekstFont{
-            font-family: Arial, Helvetica, sans-serif;
-        }
-     </style>
- 
- <script src="jquery-3.4.1.js"></script>
- 
- 
- <link hreft="go.css" type=stylesheet/css">
- 
  </head>
  
  <body onload= "maaltijdOphalen()">
