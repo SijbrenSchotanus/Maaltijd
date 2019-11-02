@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 
@@ -10,6 +11,16 @@
         maaltijdArray.name = document.getElementById("name").value;
         maaltijdArray.caloriesPerPortion = document.getElementById("caloriesPerPortion").value;
         maaltijdArray.hoeveelheidInGrammen = document.getElementById("hoeveelheidInGrammen").value;
+        maaltijdArray.dag = document.getElementById("dagSelect").value; 
+        maaltijdArray.maand = document.getElementById("maandSelect").value; 
+        maaltijdArray.jaar = document.getElementById("jaarSelect").value;
+
+        console.log(document.getElementById("maandSelect").value);
+        console.log(document.getElementById("jaarSelect").value);
+
+
+
+
         var maaltijdArrayJSON = JSON.stringify(maaltijdArray);
         maaltijdPost(maaltijdArrayJSON);
         function maaltijdPost(data) {
@@ -38,7 +49,10 @@
                 var maaltijdenLijstJSON = this.responseText;
                 var maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
                 var table = document.getElementById("maaltijdenTable")
-                table.innerHTML = "<tr><th>Id</th><th>Namen </th><th>Calorien per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+                table.innerHTML = "<tr><th>Dag waarop genuttigd</th><th>Bescrhijving </th><th>Calorieën per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+                var totalCalIn= 0;                
+
+
                 for (var i = 0; i < maaltijdenLijst.length; i++) {
                     var row = table.insertRow(i +1);
                     var cell1 = row.insertCell(0);
@@ -47,19 +61,98 @@
                     var cell4 = row.insertCell(3);
                     var cell5 = row.insertCell(4);
                     
-                    cell1.innerHTML = maaltijdenLijst[i].id;
+                    cell1.innerHTML = maaltijdenLijst[i].dag +"-" + maaltijdenLijst[i].maand + "-"+ maaltijdenLijst[i].jaar ;
                     cell2.innerHTML = maaltijdenLijst[i].name;
                     cell3.innerHTML = maaltijdenLijst[i].caloriesPerPortion;
                     cell4.innerHTML = maaltijdenLijst[i].hoeveelheidInGrammen;
-                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder mijn maaltijd   </span> </button>"; 
+                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijst[i].id+")\" > <span> Verwijder deze maaltijd   </span> </button>"; 
          
+                    totalCalIn = totalCalIn + maaltijdenLijst[i].caloriesPerPortion;
                 }
+                var rowCalInTotal = table.insertRow((maaltijdenLijst.length + 1)); 
+                    var cell11 = rowCalInTotal.insertCell(0);
+                    var cell21 = rowCalInTotal.insertCell(1);
+                    var cell31 = rowCalInTotal.insertCell(2);
+                    var cell41 = rowCalInTotal.insertCell(3);
+
+                    cell21.innerHTML = " Totaal aantal calorien: "
+                    cell31.innerHTML = totalCalIn
             }
         }
         xhr.open("GET", "http://localhost:8082/alleMaaltijden", true);
         xhr.send();
     }
 
+
+
+    function maaltijdOphalenPerDag() {
+
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        // document.getElementById("completeMaaltijd").innerHTML = this.responseText;
+
+
+
+        var maaltijdenLijstJSON = this.responseText;
+        var maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
+        var table = document.getElementById("maaltijdenTable")
+        table.innerHTML = "<tr><th>Dag waarop genuttigd</th><th>Bescrhijving </th><th>Calorieën per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+        var totalCalIn= 0;      
+
+        var dag = document.getElementById("dagSelectMaaltijdOphalen").value;
+        var maand = document.getElementById("maandSelectMaaltijdOphalen").value;
+        var jaar = document.getElementById("jaarSelectMaaltijdOphalen").value; 
+
+        var count = 0; 
+        var maaltijdenLijstDezeDag = {}; 
+
+        for(var i = 0; i <maaltijdenLijst.length; i++){
+            if(dag == maaltijdenLijst[i].dag && maand == maaltijdenLijst[i].maand &&jaar == maaltijdenLijst[i].jaar ){
+                maaltijdenLijstDezeDag[count] = maaltijdenLijst[i]; 
+                count++; 
+            }
+        }
+        console.log(maaltijdenLijstDezeDag);
+
+        console.log(maaltijdenLijstDezeDag.length);
+      
+
+        for (var i = 0; i < count; i++) {
+            var row = table.insertRow(i +1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            
+            cell1.innerHTML = maaltijdenLijstDezeDag[i].dag +"-" + maaltijdenLijstDezeDag[i].maand + "-"+ maaltijdenLijstDezeDag[i].jaar ;
+            cell2.innerHTML = maaltijdenLijstDezeDag[i].name;
+            cell3.innerHTML = maaltijdenLijstDezeDag[i].caloriesPerPortion;
+            cell4.innerHTML = maaltijdenLijstDezeDag[i].hoeveelheidInGrammen;
+            cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen("+maaltijdenLijstDezeDag[i].id+")\" > <span> Verwijder deze maaltijd   </span> </button>"; 
+ 
+            totalCalIn = totalCalIn + maaltijdenLijstDezeDag[i].caloriesPerPortion;
+        }
+        var rowCalInTotal = table.insertRow((count + 1)); 
+            var cell11 = rowCalInTotal.insertCell(0);
+            var cell21 = rowCalInTotal.insertCell(1);
+            var cell31 = rowCalInTotal.insertCell(2);
+            var cell41 = rowCalInTotal.insertCell(3);
+
+            cell21.innerHTML = " Totaal aantal calorien: "
+            cell31.innerHTML = totalCalIn
+    }
+}
+xhr.open("GET", "http://localhost:8082/alleMaaltijden", true);
+xhr.send();
+}
+
+function Test() {
+    console.log(document.getElementById("dagSelectMaaltijdOphalen").value); 
+
+
+}
 
 
     function maaltijdVerwijderen(id) {
@@ -81,148 +174,13 @@
 
 
 <head>
+    <script src="jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="styleSheet.css">
 
-    <style>
-         .button {
-             background-color: #4CAF50; /* Green */
-             border: none;
-             color: white;
-             padding: 15px 32px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             padding: 18px 16px;
-             border-radius: 12px;
-             width: 23.8%;
-             display: block;
-             float: left;
-             margin: 0.1%
-             }   
- 
-         .button span {
-             cursor: pointer;
-             display: inline-block;
-             position: relative;
-             transition: 0.5s;
-             }
- 
-         .button span::after {
-             content: '\00bb';
-             position: absolute;
-             opacity: 0;
-             top: 0;
-             right: -20px;
-             transition: 0.5s;
-             }
- 
-         .button:hover span {
-             padding-right: 25px;
-             }
- 
-         .button:hover span::after {
-             opacity: 1;
-             right: 0;
-             }
-             .button2 {
-             background-color: #4CAF50;
-             /* Green */
-             border: none;
-             color: white;
-             padding: 15px 32px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             padding: 18px 16px;
-             border-radius: 12px;
-             width: 3.8%;
-             display: block;
-             float: left;
-             margin: 0.1%
-         }
- 
-         .button2 span {
-             cursor: pointer;
-             display: inline-block;
-             position: relative;
-             transition: 0.5s;
-         }
- 
-         .button2 span::after {
-             content: '\00bb';
-             position: absolute;
-             opacity: 0;
-             top: 0;
-             right: -20px;
-             transition: 0.5s;
-         }
- 
-         .button2:hover span {
-             padding-right: 25px;
-         }
- 
-         .button2:hover span::after {
-             opacity: 1;
-             right: 0;
-         }
-
-         .button3 {
-             background-color: #4CAF50;
-             /* Green */
-             border: none;
-             color: white;
-             padding: 15px 32px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             padding: 18px 16px;
-             border-radius: 12px;
-             width: 10%;
-             display: block;
-             float: left;
-             margin: 0.1%
-         }
- 
-         .button3 span {
-             cursor: pointer;
-             display: inline-block;
-             position: relative;
-             transition: 0.5s;
-         }
- 
-         .button3 span::after {
-             content: '\00bb';
-             position: absolute;
-             opacity: 0;
-             top: 0;
-             right: -20px;
-             transition: 0.5s;
-         }
- 
-         .button3:hover span {
-             padding-right: 25px;
-         }
- 
-         .button3:hover span::after {
-             opacity: 1;
-             right: 0;
-         }
-         .tekstFont{
-            font-family: Arial, Helvetica, sans-serif;
-        }
-     </style>
- 
- <script src="jquery-3.4.1.js"></script>
- 
- 
- <link hreft="go.css" type=stylesheet/css">
- 
  </head>
  
  <body onload= "maaltijdOphalen()">
-       
+            <br>
          <form action=index.html>
                  <button class="button2"><span> &#127968 </span></button>
              </form>
@@ -235,7 +193,7 @@
          </form>
      
          <form action=Maaltijden.html>
-             <button class="button"><span>Mijn maaltijden</span></button>
+             <button class="button"><span>Mijn Maaltijden</span></button>
          </form> 
      
          <form action=Doel.html>
@@ -249,8 +207,61 @@
          <h1 class="tekstFont"> Vul hier je maaltijden in: </h1>
          <button class="button3" onclick="maaltijdPosten()"> Voeg maaltijd toe! </button>
          <br><br><br><br><br><br>
+
+         <select name="DOBDay" id="dagSelect">
+            <option>- Day -</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            </select><select name="DOBMonth" id= "maandSelect">
+            <option>- Month -</option>
+            <option value="1">January</option>
+            <option value="2">Febuary</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+            </select><select name="DOBYear"  id="jaarSelect">
+            <option>- Year -</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            </select>
      <input class="tekstFont" type="text" value="" placeholder="Naam maaltijd" id="name" ; />
-     <input class="tekstFont" type="text" value="" placeholder="Calorien per portie" id="caloriesPerPortion" ; />
+     <input class="tekstFont" type="text" value="" placeholder="Calorieen per portie" id="caloriesPerPortion" ; />
      <input class="tekstFont" type="text" value="" placeholder="Hoeveelheid in grammen" id="hoeveelheidInGrammen" ; />
  
  
@@ -260,6 +271,69 @@
      <br>
  
      <h1 class="tekstFont"> Bekijk hier je maaltijden</h1>
+
+     <select name="DOBDay" id="dagSelectMaaltijdOphalen">
+        <option>- Day -</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        </select><select name="DOBMonth" id= "maandSelectMaaltijdOphalen">
+        <option>- Month -</option>
+        <option value="1">January</option>
+        <option value="2">Febuary</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+        </select><select name="DOBYear"  id="jaarSelectMaaltijdOphalen">
+        <option>- Year -</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        </select>
+        <br>
+     <br>
+
+     <button class="button" onclick="maaltijdOphalenPerDag()"> Bekijk maaltijden van deze dag </button>
+     <br>
+     <br>
+ 
+     <br>
+     <br>
+ 
  
  
  
@@ -268,8 +342,8 @@
          <tr>
              <th class="tekstFont">Id</th>
              <th class="tekstFont">Naam </th>
-             <th class="tekstFont">Calorien per portie </th>
-             <th class="tekstFont">hoeveelheid in grammen</th>
+             <th class="tekstFont">Calorieen per porties </th>
+             <th class="tekstFont">hoeveelheid in gram</th>
              <th> </th>
          </tr>
      </table>

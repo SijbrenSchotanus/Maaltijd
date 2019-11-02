@@ -1,35 +1,134 @@
 <!DOCTYPE html>
 <html>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 <head>
 
-  
+    <script type="text/javascript">
 
-<script src="jquery-3.4.1.js"></script>
-<link rel="stylesheet" href="styleSheet.css">
+
+
+        var date = new Date();
+        var date_1 = new Date(new Date().setDate(new Date().getDate() - 1));
+        var date_2 = new Date(new Date().setDate(new Date().getDate() - 2));
+        var date_3 = new Date(new Date().setDate(new Date().getDate() - 3));
+        var date_4 = new Date(new Date().setDate(new Date().getDate() - 4));
+        var date_5 = new Date(new Date().setDate(new Date().getDate() - 5));
+        var date_6 = new Date(new Date().setDate(new Date().getDate() - 6));
+
+        var today = date.getDate() + "-" + (date.getMonth() + 1);
+        var today_1 = date_1.getDate() + "-" + (date.getMonth() + 1);
+        var today_2 = date_2.getDate() + "-" + (date.getMonth() + 1);
+        var today_3 = date_3.getDate() + "-" + (date.getMonth() + 1);
+        var today_4 = date_4.getDate() + "-" + (date.getMonth() + 1);
+        var today_5 = date_5.getDate() + "-" + (date.getMonth() + 1);
+        var today_6 = date_6.getDate() + "-" + (date.getMonth() + 1);
+
+        //Load json maaltijd
+        window.onload = maaltijdInfo(), sessieInfo();
+        var maaltijdenLijst;
+        function maaltijdInfo() {
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // document.getElementById("completeMaaltijd").innerHTML = this.responseText;
+                    var maaltijdenLijstJSON = this.responseText;
+                    maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
+                    var table = document.getElementById("maaltijdenTable")
+                    console.log(maaltijdenLijst);
+                }
+            }
+            xhr.open("GET", "http://localhost:8082/alleMaaltijden", true);
+            xhr.send();
+        }
+
+        var trainingLijst;
+        //Load json Sessie
+        function sessieInfo() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    var trainingLijstJSON = this.responseText;
+                    trainingLijst = JSON.parse(trainingLijstJSON);
+                    var table = document.getElementById("trainingTabel")
+                    console.log(trainingLijst);
+                }
+            }
+            xhr.open("GET", "http://localhost:8082/Sessies", true);
+            xhr.send();
+        }
+
+        function createCharts() {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Overzicht calorieën gegeten vs verbrand per dag"
+                },
+                data: [
+                    {
+                        // Change type to "doughnut", "line", "splineArea", etc.
+
+                        type: "column",
+                        dataPoints: [
+                            { label: today_6, y: maaltijdenLijst[6].caloriesPerPortion },
+                            { label: today_5, y: maaltijdenLijst[5].caloriesPerPortion },
+                            { label: today_4, y: maaltijdenLijst[4].caloriesPerPortion },
+                            { label: today_3, y: maaltijdenLijst[3].caloriesPerPortion },
+                            { label: today_2, y: maaltijdenLijst[2].caloriesPerPortion },
+                            { label: today_1, y: maaltijdenLijst[1].caloriesPerPortion },
+                            { label: today, y: maaltijdenLijst[0].caloriesPerPortion }
+                        ]
+                    },
+                    { //dataSeries - second quarter
+
+                        type: "column",
+                        dataPoints: [
+                            { label: today_6, y: trainingLijst[6].calVerbrand },
+                            { label: today_5, y: trainingLijst[5].calVerbrand },
+                            { label: today_4, y: trainingLijst[4].calVerbrand },
+                            { label: today_3, y: trainingLijst[3].calVerbrand },
+                            { label: today_2, y: trainingLijst[2].calVerbrand },
+                            { label: today_1, y: trainingLijst[1].calVerbrand },
+                            { label: today, y: trainingLijst[0].calVerbrand }
+                        ]
+                    }
+                ]
+            });
+            chart.render();
+        }
+    </script>
+
+
+    <link rel="stylesheet" href="styleSheet.css">
 </head>
 
 <body>
-        <h3 align='right'> Current user: Ipsum Lorum</h3>
-        <form action=index.html>
-                <button class="button2"><span> &#127968 </span></button>
-            </form>
-        <form action=nieuweGebruiker.html>
-            <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
-        </form>
-    
-        <form action=Schema.html>
-            <button class="button"><span>Mijn Schema's</span></button>
-        </form>
-    
-        <form action=Maaltijden.html>
-            <button class="button"><span>Mijn maaltijden</span></button>
-        </form> 
-    
-        <form action=Doel.html>
-            <button class="button"><span>Mijn Doel</span></button>
-        </form> 
-        
-    </body>
+    <br>
+    <form action=index.html>
+        <button class="button2"><span> &#x1F3E0 </span></button>
+    </form>
+    <form action=nieuweGebruiker.html>
+        <button class="button"><span>Nieuwe Gebruiker / Inloggen </span></button>
+    </form>
+
+    <form action=Schema.html>
+        <button class="button"><span>Mijn Schema's</span></button>
+    </form>
+
+    <form action=Maaltijden.html>
+        <button class="button"><span>Mijn Maaltijden</span></button>
+    </form>
+
+    <form action=Doel.html>
+        <button class="button"><span>Mijn Doel</span></button>
+    </form>
+    <br><br><br><br><br><br>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+    <button class=button2 onclick='createCharts()'> &#x1F4CA</button>
+
+</body>
 
 </html>
