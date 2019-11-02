@@ -2,103 +2,133 @@
 <html>
 
 
-    <script>
+<script>
 
-        function userPosten() {
-            var userArray = {};
+    function userPosten() {
+        var userArray = {};
 
 
 
-            userArray.userfirstName = document.getElementById("userFirstName").value;
-            userArray.userLastName = document.getElementById("userLastName").value;
-            userArray.userAge = document.getElementById("userAge").value;
-            userArray.userPW = document.getElementById("userPW").value
-            userArray.userWeight = document.getElementById("userWeight").value;
-            userArray.userLength = document.getElementById("userLength").value;
+        userArray.userfirstName = document.getElementById("userFirstName").value;
+        userArray.userLastName = document.getElementById("userLastName").value;
+        userArray.userAge = document.getElementById("userAge").value;
+        userArray.userPW = document.getElementById("userPW").value
+        userArray.userWeight = document.getElementById("userWeight").value;
+        userArray.userHeight = document.getElementById("userLength").value;
+        userArray.sex = document.getElementById("geslacht").value;
 
-            var userArrayJSON = JSON.stringify(userArray);
+        var userArrayJSON = JSON.stringify(userArray);
 
-            userPost(userArrayJSON);
-            function userPost(data) {
-                var xhr = new XMLHttpRequest();
-                console.log(xhr);
-                xhr.onreadystatechange = function () {
-                    if (this.readyState == 4 && xhr.status == "200") {
-                        console.log("user is verstuurd")
-                    }
-                }
-                xhr.open("POST", "http://www.localhost:8082/allUsers", true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(data);
-            }
-        }
-
-        function userOphalen() {
+        userPost(userArrayJSON);
+        function userPost(data) {
             var xhr = new XMLHttpRequest();
+            console.log(xhr);
             xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var userLijstJSON = this.responseText;
-                    var userLijst = JSON.parse(userLijstJSON)
-                    console.log("Zie hier al uw gebruikers");
-                    console.log(userLijst);
+                if (this.readyState == 4 && xhr.status == "200") {
+                    console.log("user is verstuurd")
                 }
             }
-
-            xhr.open("GET", "http://localhost:8082/allUsers", true);
-            xhr.send();
-
-
-
+            xhr.open("POST", "http://www.localhost:8082/allUsers", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
         }
+    }
 
-        function BMIBerekenen() {
-            //console.log("BMI wordt berekend")
-            var gewicht = document.getElementById("userWeight").value;
-            var lengte = document.getElementById("userLength").value;
-            var BMIvariabele = gewicht / ((lengte / 100) * (lengte / 100));
-            console.log(BMIvariabele);
-            BMIvariabele = Math.round(BMIvariabele * 100) / 100;
-            var persoonNaamPrintLocatie = document.getElementById("persoonsGegegvens");
-            var persoonNaam = document.getElementById("userFirstName").value;
-            console.log(persoonNaam)
-            persoonNaamPrintLocatie.innerHTML = "Welkom " + persoonNaam + ", uw BMI is:";
-            var printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
-            if (BMIvariabele < 18) {
-                var BMIPrintLocatie = document.getElementById("BMIRood");
-                BMIPrintLocatie.innerHTML = BMIvariabele;
-                printBMIteHoogOfTeLaag.innerHTML = "Uw BMI is te laag"
-            } else if (BMIvariabele > 25) {
-                var BMIPrintLocatie = document.getElementById("BMIRood");
-                BMIPrintLocatie.innerHTML = BMIvariabele;
-                printBMIteHoogOfTeLaag.innerHTML = "U bent te zwaar"
-            } else {     
-                var BMIPrintLocatie = document.getElementById("BMI");
-                BMIPrintLocatie.innerHTML = BMIvariabele;
-                printBMIteHoogOfTeLaag.innerHTML = "Uw gewicht is niet het probleem"
+    function userOphalen() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var userLijstJSON = this.responseText;
+                var userLijst = JSON.parse(userLijstJSON)
+                console.log("Zie hier al uw gebruikers");
+                console.log(userLijst);
             }
+        }
+        xhr.open("GET", "http://localhost:8082/allUsers", true);
+        xhr.send();
+    }
+
+    function BMIBerekenen() {
+        //console.log("BMI wordt berekend")
+        var gewicht = document.getElementById("userWeight").value;
+        var lengte = document.getElementById("userLength").value;
+        var BMIvariabele = gewicht / ((lengte / 100) * (lengte / 100));
+        console.log(BMIvariabele);
+        BMIvariabele = Math.round(BMIvariabele * 100) / 100;
+        var persoonNaamPrintLocatie = document.getElementById("persoonsGegegvens");
+        var persoonNaam = document.getElementById("userFirstName").value;
+        console.log(persoonNaam)
+        persoonNaamPrintLocatie.innerHTML = "Welkom " + persoonNaam + ", uw BMI is:";
+        var printBMIteHoogOfTeLaag = document.getElementById("BMIteHoogofLaag");
+        if (BMIvariabele < 18) {
+            var BMIPrintLocatie = document.getElementById("BMIRood");
+            BMIPrintLocatie.innerHTML = BMIvariabele;
+            printBMIteHoogOfTeLaag.innerHTML = "Uw BMI is te laag"
+        } else if (BMIvariabele > 25) {
+            var BMIPrintLocatie = document.getElementById("BMIRood");
+            BMIPrintLocatie.innerHTML = BMIvariabele;
+            printBMIteHoogOfTeLaag.innerHTML = "U bent te zwaar"
+        } else {
+            var BMIPrintLocatie = document.getElementById("BMI");
+            BMIPrintLocatie.innerHTML = BMIvariabele;
+            printBMIteHoogOfTeLaag.innerHTML = "Uw gewicht is niet het probleem"
+        }
+    }
 
 
-
-
-
+    var BRM = 0;
+    function BRMBerekenen() {
+        var geslacht = document.getElementById("geslacht").value;
+        var gewicht = parseInt(document.getElementById("userWeight").value);
+        var lengte = parseInt(document.getElementById("userLength").value);
+        var leeftijd = parseInt(document.getElementById("userAge").value);
+        BRMAankondiging.innerHTML = "Uw BRM is: "
+        if (geslacht == "Man") {
+            BRM = 66.4730 + (13.7516 * gewicht) + (5.003 * lengte) - 6.7550 * leeftijd;
+            BRM = Math.round(BRM);
+            BRMprint.innerHTML = BRM;
+        } else if (geslacht == "Vrouw") {
+            BRM = 655.0955 + 9.534 * gewicht + 1.8496 * lengte - 4.6756 * leeftijd;
+            BRM = Math.round(BRM);
+            BRM.innerHTML = BRM;
+        } else {
+            alert("er is iets fout gegaan");
         }
 
 
-    </script>
+
+
+
+
+
+
+
+    }
+
+
+</script>
 
 <head>
+    <style>
+        html {
+            background: url(Achtergrond2.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
 
-        <script src="jquery-3.4.1.js"></script>
-        <link rel="stylesheet" href="styleSheet.css">
- 
- </head>
+        }
+    </style>
+    <script src="jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="styleSheet.css">
+</head>
 
 <body>
 
 
 
     <body>
-<br>
+        <br>
         <form action=index.html>
             <button class="button2"><span> &#127968 </span></button>
         </form>
@@ -128,31 +158,80 @@
     <br>
 
     <h2 class="tekstFont"> Maak hier een nieuwe gebruiker aan </h2>
+    <div class="container">
 
-    <input type="text" value="" placeholder="Voornaam" id="userFirstName" ; />
-    <br>
-    <input type="text" value="" placeholder="Achternaam" id="userLastName" ; />
-    <br>
-    <input type="text" value="" placeholder="Leeftijd" id="userAge" ; />
-    <br>
-    <input type="text" value="" placeholder="Gewicht" id="userWeight" ; />
-    <br>
-    <input type="text" value="" placeholder="Lengte" id="userLength" ; />
-    <br>
-    <input type="password" value="" placeholder="Wachtwoord" id="userPW" ; />
-    <br>
 
-    <button class="buttonKlein" onclick='userPosten();BMIBerekenen()'><span> Nieuwe Gebruiker Aanmaken</span> </button>
+        <input type="text" value="" placeholder="Voornaam" id="userFirstName" ; />
+        <br>
+        <input type="text" value="" placeholder="Achternaam" id="userLastName" ; />
+        <br>
+        <select name="geslacht" id="geslacht" style="width: 174px" ;>
+            <option value="Man"> -Man- </option>
+            <option value="Vrouw"> -Vrouw- </option>
+        </select>
+        <br>
+        <input type="text" value="" placeholder="Leeftijd" id="userAge" ; />
+        <br>
+        <input type="text" value="" placeholder="Gewicht" id="userWeight" ; />
+        <br>
+        <input type="text" value="" placeholder="Lengte" id="userLength" ; />
+        <br>
+        <input type="password" value="" placeholder="Wachtwoord" id="userPW" ; />
+        <br>
+
+    </div>
+    <button class="buttonKlein" onclick='userPosten();BMIBerekenen();BRMBerekenen()' ;><span> Nieuwe Gebruiker
+            Aanmaken</span> </button>
+
 
 
 
     <div class="tekstFont" id="persoonsGegegvens" align='center'>
         <!--Welkom-->
-</div>
-    <div class="tekstFont" id="BMI" align='center'><!--Hier wordt uw BMI geprint--></div>
-    <div class="tekstFontGroen" id="BMIGroen" align='center'><!--Hier wordt uw BMI geprint--></div><div class="tekstFontRood" id="BMIRood" align='center'><!--Hier wordt uw BMI geprint--></div>
+    </div>
+    <div class="tekstFont" id="BMI" align='center'>
+        <!--Hier wordt uw BMI geprint-->
+    </div>
+    <div class="tekstFontGroen" id="BMIGroen" align='center'>
+        <!--Hier wordt uw BMI geprint-->
+    </div>
+    <div class="tekstFontRood" id="BMIRood" align='center'>
+        <!--Hier wordt uw BMI geprint-->
+    </div>
 
     <div id="BMIteHoogofLaag" class="tekstFont" align='center'></div>
+
+
+    <div class="tekstFont" id="BRMAankondiging" align='center'>
+            <!--Welkom-->
+        </div>
+
+    <div class="tooltip" align='center'>
+        <div class="tekstFont" id="BRMprint" align='center'>
+            <!--Welkom-->
+        </div>
+        <span class="tooltiptext">BMR is een Engelse term die Basal Metabolic Rate betekent.
+            In Nederland spreken we van basale metabolische snelheid of stofwisselingssnelheid.
+            Ons lichaam heeft een bepaald aantal calorieën nodig om ademhaling, hartslag,
+            lichaamstemperatuur, maar ook celproductie (bijvoorbeeld spieren), eiwitsynthese
+            (bijvoorbeeld haren) en het reguleren van voedingstoffen uit te kunnen voeren.
+            Met de BMR methode berekenen wij het totaal aantal calorieën dat ons lichaam nodig
+            heeft zonder dat wij actief zijn.</span>
+
+    </div>
+
+    
+
+    
+   
+
+
+
+
+
+
+
+    <!--  -->
 
 
 

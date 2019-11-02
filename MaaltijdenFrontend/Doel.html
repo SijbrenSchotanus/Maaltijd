@@ -5,9 +5,35 @@
 
 <head>
 
+      
+                <style>
+                    
+                    html {
+                        background: url(Achtergrond2.jpg) no-repeat center center fixed;
+                        -webkit-background-size: cover;
+                        -moz-background-size: cover;
+                        -o-background-size: cover;
+                        background-size: cover;
+                        
+                    }
+            
+            
+                    
+                </style>
+                <script src="jquery-3.4.1.js"></script>
+                <link rel="stylesheet" href="styleSheet.css">
+      
+
+
+
+
+
+
+
+
+
+
     <script type="text/javascript">
-
-
 
         var date = new Date();
         var date_1 = new Date(new Date().setDate(new Date().getDate() - 1));
@@ -25,6 +51,22 @@
         var today_5 = date_5.getDate() + "-" + (date.getMonth() + 1);
         var today_6 = date_6.getDate() + "-" + (date.getMonth() + 1);
 
+        var todayCalTotal = 0;
+        var today_1CalTotal = 0;
+        var today_2CalTotal = 0;
+        var today_3CalTotal = 0;
+        var today_4CalTotal = 0;
+        var today_5CalTotal = 0;
+        var today_6CalTotal = 0;
+
+        var todayCalBurnedTotal = 0;
+        var today_1CalBurnedTotal = 0;
+        var today_2CalBurnedTotal = 0;
+        var today_3CalBurnedTotal = 0;
+        var today_4CalBurnedTotal = 0;
+        var today_5CalBurnedTotal = 0;
+        var today_6CalBurnedTotal = 0;
+
         //Load json maaltijd
         window.onload = maaltijdInfo(), sessieInfo();
         var maaltijdenLijst;
@@ -36,7 +78,6 @@
                     // document.getElementById("completeMaaltijd").innerHTML = this.responseText;
                     var maaltijdenLijstJSON = this.responseText;
                     maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
-                    var table = document.getElementById("maaltijdenTable")
                     console.log(maaltijdenLijst);
                 }
             }
@@ -53,7 +94,6 @@
 
                     var trainingLijstJSON = this.responseText;
                     trainingLijst = JSON.parse(trainingLijstJSON);
-                    var table = document.getElementById("trainingTabel")
                     console.log(trainingLijst);
                 }
             }
@@ -62,9 +102,83 @@
         }
 
         function createCharts() {
+            for (i = 0; i < maaltijdenLijst.length; i++) {
+                
+                maalDag = (maaltijdenLijst[i].dag + "-" + maaltijdenLijst[i].maand);
+
+                if (today == maalDag) {
+                    todayCalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(todayCalTotal);
+                    continue;
+                } else if (today_1 == maalDag) {
+                    today_1CalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(today_1CalTotal);
+                    continue;
+                } else if (today_2 == maalDag) {
+                    today_2CalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(today_2CalTotal);
+                    continue;
+                } else if (today_3 == maalDag) {
+                    today_3CalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(today_3CalTotal);
+                    continue;
+                } else if (today_4 == maalDag) {
+                    today_4CalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(today_4CalTotal);
+                    continue;
+                } else if (today_5 == maalDag) {
+                    today_5CalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(today_5CalTotal);
+                    continue;
+                } else if (today_6 == maalDag) {
+                    today_6CalTotal += maaltijdenLijst[i].caloriesPerPortion;
+                    console.log(today_6CalTotal);
+                    continue;
+                }
+
+            }
+
+            for (i = 0; i < trainingLijst.length; i++) {
+                //if(today.equals)
+                maalDag = (trainingLijst[i].dag + "-" + trainingLijst[i].maand);
+
+                if (today == maalDag) {
+                    todayCalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(todayCalBurnedTotal);
+                    continue;
+                } else if (today_1 == maalDag) {
+                    today_1CalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(today_1CalBurnedTotal);
+                    continue;
+                } else if (today_2 == maalDag) {
+                    today_2CalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(today_2CalBurnedTotal);
+                    continue;
+                } else if (today_3 == maalDag) {
+                    today_3CalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(today_3CalBurnedTotal);
+                    continue;
+                } else if (today_4 == maalDag) {
+                    today_4CalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(today_4CalBurnedTotal);
+                    continue;
+                } else if (today_5 == maalDag) {
+                    today_5CalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(today_5CalBurnedTotal);
+                    continue;
+                } else if (today_6 == maalDag) {
+                    today_6CalBurnedTotal += trainingLijst[i].calVerbrand;
+                    console.log(today_6CalBurnedTotal);
+                    continue;
+                }
+            }
+
+
             var chart = new CanvasJS.Chart("chartContainer", {
+
+
                 title: {
-                    text: "Overzicht calorieën gegeten vs verbrand per dag"
+                    text: "Overzicht calorieen gegeten vs verbrand per dag"
                 },
                 data: [
                     {
@@ -72,26 +186,26 @@
 
                         type: "column",
                         dataPoints: [
-                            { label: today_6, y: maaltijdenLijst[6].caloriesPerPortion },
-                            { label: today_5, y: maaltijdenLijst[5].caloriesPerPortion },
-                            { label: today_4, y: maaltijdenLijst[4].caloriesPerPortion },
-                            { label: today_3, y: maaltijdenLijst[3].caloriesPerPortion },
-                            { label: today_2, y: maaltijdenLijst[2].caloriesPerPortion },
-                            { label: today_1, y: maaltijdenLijst[1].caloriesPerPortion },
-                            { label: today, y: maaltijdenLijst[0].caloriesPerPortion }
+                            { label: today_6, y: today_6CalTotal },
+                            { label: today_5, y: today_5CalTotal },
+                            { label: today_4, y: today_4CalTotal },
+                            { label: today_3, y: today_3CalTotal },
+                            { label: today_2, y: today_2CalTotal },
+                            { label: today_1, y: today_1CalTotal },
+                            { label: today, y: todayCalTotal },
                         ]
                     },
                     { //dataSeries - second quarter
 
                         type: "column",
                         dataPoints: [
-                            { label: today_6, y: trainingLijst[6].calVerbrand },
-                            { label: today_5, y: trainingLijst[5].calVerbrand },
-                            { label: today_4, y: trainingLijst[4].calVerbrand },
-                            { label: today_3, y: trainingLijst[3].calVerbrand },
-                            { label: today_2, y: trainingLijst[2].calVerbrand },
-                            { label: today_1, y: trainingLijst[1].calVerbrand },
-                            { label: today, y: trainingLijst[0].calVerbrand }
+                            { label: today_6, y: today_6CalBurnedTotal },
+                            { label: today_5, y: today_5CalBurnedTotal },
+                            { label: today_4, y: today_4CalBurnedTotal },
+                            { label: today_3, y: today_3CalBurnedTotal },
+                            { label: today_2, y: today_2CalBurnedTotal },
+                            { label: today_1, y: today_1CalBurnedTotal },
+                            { label: today, y: todayCalBurnedTotal }
                         ]
                     }
                 ]

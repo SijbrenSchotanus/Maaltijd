@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Sessie {
@@ -18,11 +19,18 @@ public class Sessie {
 	    private int jaar; 
 	    private int maand; 
 	    
-	    
-	    
-	    
+	/*
+	 * @ManyToOne() private User user;
+	 * 
+	 * 
+	 * 
+	 * 
+	 * public User getUser() { return user; }
+	 * 
+	 * public void setUser(User user) { this.user = user; }
+	 */
 
-	    public int getJaar() {
+		public int getJaar() {
 			return jaar;
 		}
 
