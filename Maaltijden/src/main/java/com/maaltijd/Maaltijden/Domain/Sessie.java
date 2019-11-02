@@ -15,6 +15,29 @@ public class Sessie {
 	   private int dag; 
 	   private int calVerbrand;
 	   private String beschrijvingOefening; 
+	    private int jaar; 
+	    private int maand; 
+	    
+	    
+	    
+	    
+
+	    public int getJaar() {
+			return jaar;
+		}
+
+		public void setJaar(int jaar) {
+			this.jaar = jaar;
+		}
+
+		public int getMaand() {
+			return maand;
+		}
+
+		public void setMaand(int maand) {
+			this.maand = maand;
+		}
+	   
 	   
 	   
 	public String getBeschrijvingOefening() {
