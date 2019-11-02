@@ -14,6 +14,7 @@ public class Maaltijd {
     private int caloriesPerPortion;
     private int hoeveelheidInGrammen;
     private int dag; 
+<<<<<<< HEAD
     private int jaar; 
     private int maand; 
     
@@ -38,6 +39,12 @@ public class Maaltijd {
 	}
 
 	public int getDag() {
+=======
+    
+    
+
+    public int getDag() {
+>>>>>>> 3436f6e62a0ed04e4337db2561105da3ac9ba4d0
 		return dag;
 	}
 
