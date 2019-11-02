@@ -1,10 +1,11 @@
 package com.maaltijd.Maaltijden.Domain;
 
-
+import java.util.List;
 import javax.persistence.*;
 
 
 @Entity
+@Table
 public class Maaltijd {
 
     @Id
@@ -18,10 +19,18 @@ public class Maaltijd {
     private int maand; 
     
     
-    
-    
+	/*
+	 * @ManyToOne() private User user;
+	 * 
+	 * 
+	 * 
+	 * 
+	 * public User getUser() { return user; }
+	 * 
+	 * public void setUser(User user) { this.user = user; }
+	 */
 
-    public int getJaar() {
+	public int getJaar() {
 		return jaar;
 	}
 

@@ -1,9 +1,11 @@
 package com.maaltijd.Maaltijden.Domain;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -17,11 +19,40 @@ public class User {
 	private double userWeight; 
 	private double userHeight;
 	private int userAge; 
+	private String sex; 
+	
+	
+	/*
+	 * @OneToMany(mappedBy = "user") private List<Maaltijd> maaltijd;
+	 * 
+	 * public List<Maaltijd> getMaaltijd() { return maaltijd; }
+	 * 
+	 * public void setMaaltijd(List<Maaltijd> maaltijd) { this.maaltijd = maaltijd;
+	 * }
+
+
+
+	 * public List<Sessie> getSessie() { return sessie; }
+	 * 
+	 * public void setSessie(List<Sessie> sessie) { this.sessie = sessie; }
+	 * 
+	 * @OneToMany(mappedBy = "user") private List<Sessie> sessie;
+	 */
+	
+	
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
 	
 	public int getUserAge() {
 		return userAge; 
 	}
-	
+
+
 	public void setUserAge(int userAge) {
 		this.userAge = userAge; 
 	}

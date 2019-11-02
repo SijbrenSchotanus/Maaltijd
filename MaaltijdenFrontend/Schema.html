@@ -1,4 +1,8 @@
 <DOCTYPE html>
+    
+    
+    
+    
     <html>
 
 
@@ -49,13 +53,20 @@
         function sessieOphalen() {
 
             var xhr = new XMLHttpRequest();
+
+
+            
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
 
                     var trainingLijstJSON = this.responseText;
+
+                    console.log(trainingLijstJSON)
+
                     var trainingLijst = JSON.parse(trainingLijstJSON);
                     var table = document.getElementById("trainingTabel")
                     table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
+                    console.log(trainingLijst);
                     
                     var totalCal= 0; 
                     
@@ -213,6 +224,7 @@
             }
             xhr.open("GET", "http://localhost:8082/Sessies", true);
             xhr.send();
+            console.log(dagenlijstArray)
 
         }
 
@@ -281,11 +293,23 @@
 
 
 
-    <head>
-
+<head>
+        <style>
+            
+            html {
+                background: url(Achtergrond2.jpg) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                
+            }
+    
+    
+            
+        </style>
         <script src="jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="styleSheet.css">
-
     </head>
 
     <body>
@@ -397,7 +421,7 @@
 
 
         <br><br>
-        <table style="width:50%" id="trainingTabel" border='1'>
+        <table style="width:50%" class="greenTable" id="trainingTabel" border='1'>
             <tr>
 
 
