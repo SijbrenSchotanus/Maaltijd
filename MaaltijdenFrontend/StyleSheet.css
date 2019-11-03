@@ -328,17 +328,7 @@ table.greenTable {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-  /* Proberen  */
+  /* =================================HOVER TEXT BUBBLE FOR BRM======================================== */
 
   .container {
     width: 170px;
@@ -388,3 +378,9 @@ table.greenTable {
     border-style: solid;
     border-color: transparent transparent rgb(155, 235, 135);
   }
+
+
+
+  /* =================================FIX TABLE SIZE ========================================= */
+  table.fixed { table-layout:fixed; }
+  table.fixed td { overflow: hidden; }
