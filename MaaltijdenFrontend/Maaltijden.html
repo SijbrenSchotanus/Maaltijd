@@ -75,6 +75,7 @@
             xhr.open("POST", "http://localhost:8082/alleMaaltijden", true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(data);
+            alert("Maaltijd toegevoegd");
         }
     }
 
@@ -93,7 +94,7 @@
                 console.log(maaltijdenLijst); 
 
                 var table = document.getElementById("maaltijdenTable")
-                table.innerHTML = "<tr><th>Dag waarop genuttigd</th><th>Bescrhijving </th><th>Calorieën per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+                table.innerHTML = "<tr><th>Dag waarop genuttigd</th><th>Bescrhijving </th><th>Calorieën per 100 gram </th><th>hoeveelheid in grammen</th> <th>Totaal aantal calorieen deze portie</th>    <th>  </th></tr>";
                 var totalCalIn = 0;
 
 
@@ -104,23 +105,27 @@
                     var cell3 = row.insertCell(2);
                     var cell4 = row.insertCell(3);
                     var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
 
                     cell1.innerHTML = maaltijdenLijst[i].dag + "-" + maaltijdenLijst[i].maand + "-" + maaltijdenLijst[i].jaar;
                     cell2.innerHTML = maaltijdenLijst[i].name;
                     cell3.innerHTML = maaltijdenLijst[i].caloriesPerPortion;
                     cell4.innerHTML = maaltijdenLijst[i].hoeveelheidInGrammen;
-                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen(" + maaltijdenLijst[i].id + ")\" > <span> Verwijder deze maaltijd   </span> </button>";
+                    cell5.innerHTML = maaltijdenLijst[i].caloriesPerPortion*maaltijdenLijst[i].hoeveelheidInGrammen/100; 
+                    cell6.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen(" + maaltijdenLijst[i].id + ")\" > <span> Verwijder deze maaltijd   </span> </button>";
 
-                    totalCalIn = totalCalIn + maaltijdenLijst[i].caloriesPerPortion;
+
+                    totalCalIn = totalCalIn + maaltijdenLijst[i].caloriesPerPortion*maaltijdenLijst[i].hoeveelheidInGrammen/100; 
                 }
                 var rowCalInTotal = table.insertRow((maaltijdenLijst.length + 1));
                 var cell11 = rowCalInTotal.insertCell(0);
                 var cell21 = rowCalInTotal.insertCell(1);
                 var cell31 = rowCalInTotal.insertCell(2);
                 var cell41 = rowCalInTotal.insertCell(3);
+                var cell51 = rowCalInTotal.insertCell(4);
 
-                cell21.innerHTML = " Totaal aantal calorien: "
-                cell31.innerHTML = totalCalIn
+                cell41.innerHTML = " Totaal aantal calorien: "
+                cell51.innerHTML = totalCalIn
             }
         }
         xhr.open("GET", "http://localhost:8082/alleMaaltijden", true);
@@ -141,7 +146,7 @@
                 var maaltijdenLijstJSON = this.responseText;
                 var maaltijdenLijst = JSON.parse(maaltijdenLijstJSON);
                 var table = document.getElementById("maaltijdenTable")
-                table.innerHTML = "<tr><th>Dag waarop genuttigd</th><th>Bescrhijving </th><th>Calorieën per portie </th><th>hoeveelheid in grammen</th><th> </th></tr>";
+                table.innerHTML = "<tr><th>Dag waarop genuttigd</th><th>Bescrhijving </th><th>Calorieën per 100 gram </th><th>hoeveelheid in grammen</th> <th>Totaal aantal calorieen deze portie</th>  <th> </th></tr>";
                 var totalCalIn = 0;
 
                 var dag = document.getElementById("dagSelectMaaltijdOphalen").value;
@@ -169,23 +174,32 @@
                     var cell3 = row.insertCell(2);
                     var cell4 = row.insertCell(3);
                     var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+
 
                     cell1.innerHTML = maaltijdenLijstDezeDag[i].dag + "-" + maaltijdenLijstDezeDag[i].maand + "-" + maaltijdenLijstDezeDag[i].jaar;
                     cell2.innerHTML = maaltijdenLijstDezeDag[i].name;
                     cell3.innerHTML = maaltijdenLijstDezeDag[i].caloriesPerPortion;
                     cell4.innerHTML = maaltijdenLijstDezeDag[i].hoeveelheidInGrammen;
-                    cell5.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen(" + maaltijdenLijstDezeDag[i].id + ")\" > <span> Verwijder deze maaltijd   </span> </button>";
+                    cell5.innerHTML = maaltijdenLijstDezeDag[i].caloriesPerPortion*maaltijdenLijstDezeDag[i].hoeveelheidInGrammen/100; 
+                    cell6.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"maaltijdVerwijderen(" + maaltijdenLijst[i].id + ")\" > <span> Verwijder deze maaltijd   </span> </button>";
 
-                    totalCalIn = totalCalIn + maaltijdenLijstDezeDag[i].caloriesPerPortion;
+                    console.log(maaltijdenLijstDezeDag[i].name)
+                    console.log(maaltijdenLijstDezeDag[i].caloriesPerPortion); 
+                    console.log(maaltijdenLijstDezeDag[i].hoeveelheidInGrammen); 
+                    
+
+                    totalCalIn = totalCalIn + maaltijdenLijstDezeDag[i].caloriesPerPortion*maaltijdenLijstDezeDag[i].hoeveelheidInGrammen /100;
                 }
                 var rowCalInTotal = table.insertRow((count + 1));
                 var cell11 = rowCalInTotal.insertCell(0);
                 var cell21 = rowCalInTotal.insertCell(1);
                 var cell31 = rowCalInTotal.insertCell(2);
                 var cell41 = rowCalInTotal.insertCell(3);
+                var cell51 = rowCalInTotal.insertCell(4);
 
-                cell21.innerHTML = " Totaal aantal calorien: "
-                cell31.innerHTML = totalCalIn
+                cell41.innerHTML = " Totaal aantal calorien: "
+                cell51.innerHTML = totalCalIn
             }
         }
         xhr.open("GET", "http://localhost:8082/alleMaaltijden", true);
@@ -275,7 +289,7 @@
     <br><br><br><br><br><br>
 
     <select name="DOBDay" id="dagSelect">
-        <option>- Day -</option>
+        <option>- Dag -</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -308,26 +322,26 @@
         <option value="30">30</option>
         <option value="31">31</option>
     </select><select name="DOBMonth" id="maandSelect">
-        <option>- Month -</option>
-        <option value="1">January</option>
-        <option value="2">Febuary</option>
-        <option value="3">March</option>
+        <option>- Maand -</option>
+      <option value="1">Januari</option>
+        <option value="2">Februari</option>
+        <option value="3">Maart</option>
         <option value="4">April</option>
-        <option value="5">May</option>
-        <option value="6">June</option>
-        <option value="7">July</option>
-        <option value="8">August</option>
+        <option value="5">Mei</option>
+        <option value="6">Juni</option>
+        <option value="7">Juli</option>
+        <option value="8">Augustus</option>
         <option value="9">September</option>
-        <option value="10">October</option>
+        <option value="10">Oktober</option>
         <option value="11">November</option>
         <option value="12">December</option>
     </select><select name="DOBYear" id="jaarSelect">
-        <option>- Year -</option>
+        <option>- Jaar -</option>
         <option value="2020">2020</option>
         <option value="2019">2019</option>
     </select>
     <input class="tekstFont" type="text" value="" placeholder="Beschrijving maaltijd" id="name" ; />
-    <input class="tekstFont" type="text" value="" placeholder="Calorieën per portie" id="caloriesPerPortion" ; />
+    <input class="tekstFont" type="text" value="" placeholder="Calorieën per 100 gram" id="caloriesPerPortion" ; />
     <input class="tekstFont" type="text" value="" placeholder="Hoeveelheid in grammen" id="hoeveelheidInGrammen" ; />
 
 
@@ -339,7 +353,7 @@
     <h1 class="tekstFont"> Bekijk hier je maaltijden</h1>
 
     <select name="DOBDay" id="dagSelectMaaltijdOphalen">
-        <option>- Day -</option>
+        <option>- Dag -</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -372,21 +386,21 @@
         <option value="30">30</option>
         <option value="31">31</option>
     </select><select name="DOBMonth" id="maandSelectMaaltijdOphalen">
-        <option>- Month -</option>
-        <option value="1">January</option>
-        <option value="2">Febuary</option>
-        <option value="3">March</option>
+        <option>- Maand -</option>
+        <option value="1">Januari</option>
+        <option value="2">Februari</option>
+        <option value="3">Maart</option>
         <option value="4">April</option>
-        <option value="5">May</option>
-        <option value="6">June</option>
-        <option value="7">July</option>
-        <option value="8">August</option>
+        <option value="5">Mei</option>
+        <option value="6">Juni</option>
+        <option value="7">Juli</option>
+        <option value="8">Augustus</option>
         <option value="9">September</option>
-        <option value="10">October</option>
+        <option value="10">Oktober</option>
         <option value="11">November</option>
         <option value="12">December</option>
     </select><select name="DOBYear" id="jaarSelectMaaltijdOphalen">
-        <option>- Year -</option>
+        <option>- Jaar -</option>
         <option value="2020">2020</option>
         <option value="2019">2019</option>
     </select>
@@ -407,11 +421,11 @@
 
 
     <br><br>
-    <table style="width:50%" class="greenTable" id="maaltijdenTable" border='1'>
+    <table style="width:80%" class="greenTable" id="maaltijdenTable" border='1'>
         <tr>
             <th class="tekstFont">Id</th>
             <th class="tekstFont">Naam </th>
-            <th class="tekstFont">Calorieën per portie </th>
+            <th class="tekstFont">Calorieën per 100 gram </th>
             <th class="tekstFont">hoeveelheid in grammen</th>
             <th> </th>
         </tr>

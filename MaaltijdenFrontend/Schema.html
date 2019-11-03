@@ -58,48 +58,32 @@
             
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-
                     var trainingLijstJSON = this.responseText;
-
-                    console.log(trainingLijstJSON)
-
+              //      console.log(trainingLijstJSON)
                     var trainingLijst = JSON.parse(trainingLijstJSON);
                     var table = document.getElementById("trainingTabel")
                     table.innerHTML = "<tr><th>Dag</th><th>Bescrhijving oefening </th><th>Calorien verbrand </th></tr>";
-                    console.log(trainingLijst);
-                    
-                    var totalCal= 0; 
-                    
+                    console.log(trainingLijst);       
+                    var totalCal= 0;       
                     for (var i = 0; i < trainingLijst.length; i++) {
                         var row = table.insertRow(i + 1);
                         var cell1 = row.insertCell(0);
                         var cell2 = row.insertCell(1);
                         var cell3 = row.insertCell(2);
-                        var cell4 = row.insertCell(3);
-                        
+                        var cell4 = row.insertCell(3);                 
                         cell1.innerHTML = trainingLijst[i].dag;
                         cell2.innerHTML = trainingLijst[i].beschrijvingOefening;
                         cell3.innerHTML = trainingLijst[i].calVerbrand;
                         cell4.innerHTML = "<button class=\"button4\" id=\"removeButton\" onclick=\"sessieVerwijderen(" + trainingLijst[i].id + ")\" > <span> Verwijder deze sessie  </span> </button>";
-
-                        totalCal = totalCal +  trainingLijst[i].calVerbrand;
-                       
-                    }
-                
+                        totalCal = totalCal +  trainingLijst[i].calVerbrand;                   
+                    }    
                     var rowCalTotal = table.insertRow((trainingLijst.length + 1)); 
                     var cell11 = rowCalTotal.insertCell(0);
                     var cell21 = rowCalTotal.insertCell(1);
                     var cell31 = rowCalTotal.insertCell(2);
                     var cell41 = rowCalTotal.insertCell(3);
-
                     cell21.innerHTML = " Totaal aantal calorien: "
-                    cell31.innerHTML = totalCal
-
-                    
-
-                    
-
-
+                    cell31.innerHTML = totalCal;           
                 }
             }
             xhr.open("GET", "http://localhost:8082/Sessies", true);
@@ -340,7 +324,7 @@
         <h1 class="tekstFont"> Vul hier je training in: </h1>
 
         <select name="DOBDay" id="dagSelect">
-            <option>- Day -</option>
+            <option>- Dag -</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -373,21 +357,21 @@
             <option value="30">30</option>
             <option value="31">31</option>
             </select><select name="DOBMonth" id="maandSelect">
-            <option>- Month -</option>
-            <option value="1">January</option>
-            <option value="2">Febuary</option>
-            <option value="3">March</option>
+            <option>- Maand -</option>
+            <option value="1">Januari</option>
+            <option value="2">Februari</option>
+            <option value="3">Maart</option>
             <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
+            <option value="5">Mei</option>
+            <option value="6">Juni</option>
+            <option value="7">Juli</option>
+            <option value="8">Augustus</option>
             <option value="9">September</option>
-            <option value="10">October</option>
+            <option value="10">Oktober</option>
             <option value="11">November</option>
             <option value="12">December</option>
             </select><select name="DOBYear" id="jaarSelect">
-            <option>- Year -</option>
+            <option>- Jaar -</option>
             <option value="2020">2020</option>
             <option value="2019">2019</option>
             </select>
@@ -421,7 +405,7 @@
 
 
         <br><br>
-        <table style="width:50%" class="greenTable" id="trainingTabel" border='1'>
+        <table style="width:80%" class="greenTable" id="trainingTabel" border='1'>
             <tr>
 
 
